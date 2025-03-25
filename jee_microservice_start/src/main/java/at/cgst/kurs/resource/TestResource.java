@@ -167,6 +167,7 @@ public class TestResource {
   ) {
     LOG.infov("Deleting TestEntity with ID: {0}", id);
 
+    // may also delete with testEntityRepo.deleteById(id); // faster
     try {
       TestEntity entity = testEntityRepo.findById(id);
       if (entity == null) {

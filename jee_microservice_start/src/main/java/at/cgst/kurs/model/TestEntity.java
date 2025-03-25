@@ -1,7 +1,6 @@
 package at.cgst.kurs.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -21,7 +20,7 @@ public class TestEntity {
   @Column(name = "name", length = 600)
   private String name;
 
-  public Integer getId() {
+  public Long getId() {
     return id;
   }
 

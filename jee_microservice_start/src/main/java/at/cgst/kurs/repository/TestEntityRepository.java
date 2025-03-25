@@ -8,6 +8,7 @@ import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import jakarta.transaction.UserTransaction;
+import org.hibernate.query.sqm.spi.DelegatingSqmSelectionQueryImplementor;
 
 import java.util.List;
 
@@ -60,8 +61,15 @@ public class TestEntityRepository {
    * delete with entity reference
    * @param entity
    */
+  @Transactional
   public void deleteTestEntity(TestEntity entity) {
-    em.remove(entity);
+    if(em.contains(entity)){
+      em.remove(entity);
+    } else {
+      this.deleteById(entity.getId());
+    }
+
+
   }
 
   /**
@@ -69,7 +77,9 @@ public class TestEntityRepository {
    * @param id
    * @return
    */
+  @Transactional
   public int deleteById(Long id) {
+
     return em.createQuery("DELETE FROM TestEntity e WHERE e.id = :id")
         .setParameter("id", id)
         .executeUpdate();
