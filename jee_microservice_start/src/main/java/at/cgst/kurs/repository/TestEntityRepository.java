@@ -56,6 +56,25 @@ public class TestEntityRepository {
     }
   }
 
+  /**
+   * delete with entity reference
+   * @param entity
+   */
+  public void deleteTestEntity(TestEntity entity) {
+    em.remove(entity);
+  }
+
+  /**
+   * faster delete without loading the entity first
+   * @param id
+   * @return
+   */
+  public int deleteById(Long id) {
+    return em.createQuery("DELETE FROM TestEntity e WHERE e.id = :id")
+        .setParameter("id", id)
+        .executeUpdate();
+  }
+
 
   public TestEntity findTestEntity(String name) {
     throw new RuntimeException("Not implemented");

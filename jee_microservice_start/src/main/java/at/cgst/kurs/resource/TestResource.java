@@ -60,14 +60,6 @@ public class TestResource {
   ) {
     LOG.infov("Creating new TestEntity with name: {0}", dto.getName());
 
-    // Validate input
-    if (dto.getName() == null || dto.getName().isEmpty()) {
-      LOG.warn("Invalid name parameter");
-      return Response.status(Response.Status.BAD_REQUEST)
-          .entity("Name parameter cannot be empty")
-          .build();
-    }
-
     try {
       // Create and populate TestEntity from DTO values
       TestEntity newEntity = new TestEntity();
@@ -165,5 +157,36 @@ public class TestResource {
 
     return "Anzahl TestEntities: " + byName.size();
   }
+
+  @DELETE
+  @Path("/{id}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response deleteTestEntity(
+      @Parameter(description = "ID of the TestEntity to delete", required = true)
+      @PathParam("id") Long id
+  ) {
+    LOG.infov("Deleting TestEntity with ID: {0}", id);
+
+    try {
+      TestEntity entity = testEntityRepo.findById(id);
+      if (entity == null) {
+        LOG.warnv("TestEntity with ID {0} not found", id);
+        return Response.status(Response.Status.NOT_FOUND)
+            .entity("Entity not found")
+            .build();
+      }
+
+      testEntityRepo.deleteTestEntity(entity);
+
+      return Response.noContent().build(); // 204 No Content
+
+    } catch (Exception e) {
+      LOG.error("Error deleting TestEntity", e);
+      return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+          .entity("Error deleting entity")
+          .build();
+    }
+  }
+
 
 }
