@@ -3,6 +3,7 @@ package at.cgst.kurs.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 
 import java.util.Date;
@@ -18,6 +19,7 @@ public class TestDTO {
 
   @JsonProperty(value = "name", required = true, access = JsonProperty.Access.READ_WRITE, defaultValue = "nameDefault")
   @Pattern(regexp = "^[a-zA-Z]+$", message = "Must contain only alphabetical characters")
+  @NotEmpty
   String name;
 
   @JsonProperty(value = "vorname", required = false, access = JsonProperty.Access.READ_WRITE, defaultValue = "vornameDefault")

@@ -153,13 +153,16 @@ public class TestResource {
   @Path("/find")
   @Produces(MediaType.TEXT_PLAIN)
   public String queryParameter(
-      @QueryParam("name") String name
+      @QueryParam("name") String name,
+      @QueryParam("exact") Boolean exact
   ){
-    LOG.infov("log QueryParam: {0}", name);
+    LOG.infov("log QueryParam: {0} exact {1}", name, exact);
 
-    List<TestEntity> byName = this.testEntityRepo.findByName(name);
+    // simple query and or enhanced query with like OR exact match
+    // List<TestEntity> byName = this.testEntityRepo.findByName(name);
+    List<TestEntity> byName = this.testEntityRepo.findByName(name, exact);
+
     return "Anzahl TestEntities: " + byName.size();
-
   }
 
 }

@@ -96,6 +96,28 @@ public class TestEntityRepository {
     return resultList;
   }
 
+  /**
+   * find by name with exact match or LIKE match
+   * @param name
+   * @param exactMatch
+   * @return
+   */
+  public List<TestEntity> findByName(String name, boolean exactMatch) {
+    String jpql = exactMatch
+        ? "SELECT e FROM TestEntity e WHERE e.name = :name"
+        : "SELECT e FROM TestEntity e WHERE LOWER(e.name) LIKE LOWER(:name)";
+
+    TypedQuery<TestEntity> query = em.createQuery(jpql, TestEntity.class);
+
+    if (exactMatch) {
+      query.setParameter("name", name);
+    } else {
+      query.setParameter("name", "%" + name + "%");
+    }
+
+    return query.getResultList();
+  }
+
 
 }
 
