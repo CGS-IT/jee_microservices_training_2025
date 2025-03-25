@@ -4,6 +4,7 @@ import at.cgst.kurs.model.TestEntity;
 import at.cgst.kurs.repository.TestEntityRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import at.cgst.kurs.dto.TestDTO;
@@ -73,7 +74,7 @@ public class TestResource {
   @Consumes(MediaType.APPLICATION_JSON)
   public Response createTestEntity (
       @Parameter(description = "TestEntity to create", required = true)
-      TestDTO dto
+      @Valid TestDTO dto
   ) {
     LOG.infov("Creating new TestEntity with name: {0}", dto.getName());
 
