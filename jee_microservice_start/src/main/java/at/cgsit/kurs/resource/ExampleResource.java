@@ -1,4 +1,4 @@
-package at.cgst.kurs.resource;
+package at.cgsit.kurs.resource;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;

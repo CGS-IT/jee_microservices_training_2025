@@ -1,4 +1,4 @@
-package at.cgst.kurs.dto;
+package at.cgsit.kurs.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;

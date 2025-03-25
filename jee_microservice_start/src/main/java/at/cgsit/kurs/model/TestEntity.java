@@ -1,6 +1,7 @@
-package at.cgst.kurs.model;
+package at.cgsit.kurs.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -16,12 +17,21 @@ public class TestEntity {
   private Long versionNo;
 
   @Size(max = 600)
-  // @Pattern(regexp = "^[a-zA-Z]+$", message = "Must contain only alphabetical characters")
+  @Pattern(regexp = "^[a-zA-Z]+$", message = "Must contain only alphabetical characters")
   @Column(name = "name", length = 600)
   private String name;
 
+  public TestEntity() {
+    this.name = "";
+  }
+  // default constructor to enable immediate object creation
+  public TestEntity(String name) {
+    this.name = name;
+  }
+
+
   public Long getId() {
-    return id;
+    return id.longValue();
   }
 
   public void setId(Integer id) {

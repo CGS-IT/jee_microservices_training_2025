@@ -2,7 +2,7 @@ package at.cgsit.kurs.resource;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
-import at.cgst.kurs.dto.TestDTO;
+import at.cgsit.kurs.dto.TestDTO;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;

@@ -1,12 +1,12 @@
-package at.cgst.kurs.resource;
+package at.cgsit.kurs.resource;
 
-import at.cgst.kurs.model.TestEntity;
-import at.cgst.kurs.repository.TestEntityRepository;
+import at.cgsit.kurs.model.TestEntity;
+import at.cgsit.kurs.repository.TestEntityRepository;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import at.cgst.kurs.dto.TestDTO;
+import at.cgsit.kurs.dto.TestDTO;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;

@@ -1,4 +1,4 @@
-package at.cgst.kurs.resource;
+package at.cgsit.kurs.resource;
 
 
 import org.eclipse.microprofile.config.ConfigProvider;
