@@ -3,7 +3,6 @@ package at.cgst.kurs.resource;
 import at.cgst.kurs.model.TestEntity;
 import at.cgst.kurs.repository.TestEntityRepository;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -18,13 +17,13 @@ public class TestResource {
   private static final Logger LOG = Logger.getLogger(TestResource.class);
 
   @Inject
-  TestEntityRepository testEntityRepository;
+  TestEntityRepository testEntityRepo;
 
   @GET
   @Path("/count")
   @Produces(MediaType.TEXT_PLAIN)
   public String countTestResources() {
-    Long l = testEntityRepository.countTestEntities();
+    Long l = testEntityRepo.countTestEntities();
     LOG.infov("Anzahl TestEntities: {0}", l);
     return "Anzahl TestEntities: " + l.toString();
   }
@@ -36,23 +35,17 @@ public class TestResource {
   @GET
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  public TestDTO readObjectById( @PathParam("id") String id) {
+  public TestDTO readObjectById( @PathParam("id") Integer id) {
 
     LOG.infov("input {0} , objectOutput {1}", id, "");
 
-    int pId = 0;
-    try {
-      pId = Integer.parseInt(id);
-    } catch (NumberFormatException e) {
-      LOG.warnv("invalid input {}", id);
-      throw e;
-    }
+    TestEntity testEntity = testEntityRepo.readTestEntityById(id);
 
     TestDTO dto = new TestDTO();
-    dto.setId(Integer.toUnsignedLong(pId));
-    dto.setName("resultName");
-    dto.setVorname("resultName");
-    dto.setEventDate( new java.util.Date());
+    dto.setId(testEntity.getId().longValue());
+    dto.setVersionNumber(testEntity.getVersionNo());
+    dto.setName(testEntity.getName());
+    dto.setVorname("");
     return dto;
   }
 
@@ -69,7 +62,6 @@ public class TestResource {
   }
 
   @POST
-  @Path("/{name}")
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
   public Response createTestEntity (
@@ -92,7 +84,7 @@ public class TestResource {
       newEntity.setName(dto.getName());
 
       // insert. newEntity will be updated with ID
-      testEntityRepository.insertTestEntity(newEntity);
+      testEntityRepo.insertTestEntity(newEntity);
       // Map entity to DTO for response
       TestDTO result = new TestDTO();
       result.setId(newEntity.getId().longValue()); // Assuming ID is generated after persist
