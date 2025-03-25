@@ -134,6 +134,7 @@ public class TestResource {
       // Build response DTO
       TestDTO responseDto = new TestDTO();
       responseDto.setId(existingEntity.getId().longValue());
+      responseDto.setVersionNumber(existingEntity.getVersionNo());
       responseDto.setName(existingEntity.getName());
       responseDto.setVorname(""); // Fill as needed
 
