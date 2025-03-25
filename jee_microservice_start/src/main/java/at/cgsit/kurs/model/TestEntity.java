@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "test")
 public class TestEntity {
@@ -20,6 +23,13 @@ public class TestEntity {
   @Pattern(regexp = "^[a-zA-Z]+$", message = "Must contain only alphabetical characters")
   @Column(name = "name", length = 600)
   private String name;
+
+  @OneToMany(
+      mappedBy = "testEntity",
+      cascade = CascadeType.ALL,
+      orphanRemoval = true,
+      fetch = FetchType.LAZY)
+  private List<ChildEntity> children = new ArrayList<>();
 
   public TestEntity() {
     this.name = "";
@@ -54,5 +64,27 @@ public class TestEntity {
   public void setVersionNo(final Long versionNo) {
     this.versionNo = versionNo;
   }
+
+  public List<ChildEntity> getChildren() {
+    return children;
+  }
+
+  public void setChildren(List<ChildEntity> children) {
+    this.children = children;
+    for (ChildEntity child : children) {
+      child.setTestEntity(this); // keep the relationship in sync
+    }
+  }
+
+  public void addChild(ChildEntity child) {
+    children.add(child);
+    child.setTestEntity(this);
+  }
+
+  public void removeChild(ChildEntity child) {
+    children.remove(child);
+    child.setTestEntity(null);
+  }
+
 
 }
