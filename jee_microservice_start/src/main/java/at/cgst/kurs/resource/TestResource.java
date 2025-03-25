@@ -3,6 +3,7 @@ package at.cgst.kurs.resource;
 import at.cgst.kurs.model.TestEntity;
 import at.cgst.kurs.repository.TestEntityRepository;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import at.cgst.kurs.dto.TestDTO;
@@ -17,6 +18,15 @@ public class TestResource {
 
   @Inject
   TestEntityRepository testEntityRepository;
+
+  @GET
+  @Path("/count")
+  @Produces(MediaType.TEXT_PLAIN)
+  public String countTestResources() {
+    Long l = testEntityRepository.countTestEntities();
+    LOG.infov("Anzahl TestEntities: {0}", l);
+    return "Anzahl TestEntities: " + l.toString();
+  }
 
   // http://localhost:8080/test/1
   @Operation( summary = "read a Test DTO Object by ID",
@@ -57,18 +67,18 @@ public class TestResource {
     return "query params ["+ qp + "] und [" + qP2 + "]";
   }
 
-  @PUT
+  @POST
   @Path("/{name}")
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  public Response createTestEntity(
-      @Parameter(name = "name", description = "The name of the TestEntity", required = true, allowEmptyValue = false)
-      @PathParam("name") String name
+  public Response createTestEntity (
+      @Parameter(description = "TestEntity to create", required = true)
+      TestDTO dto
   ) {
-    LOG.infov("Creating new TestEntity with name: {0}", name);
+    LOG.infov("Creating new TestEntity with name: {0}", dto.getName());
 
     // Validate input
-    if (name == null || name.isEmpty()) {
+    if (dto.getName() == null || dto.getName().isEmpty()) {
       LOG.warn("Invalid name parameter");
       return Response.status(Response.Status.BAD_REQUEST)
           .entity("Name parameter cannot be empty")
@@ -76,22 +86,21 @@ public class TestResource {
     }
 
     try {
-      // Create and populate TestEntity
+      // Create and populate TestEntity from DTO values
       TestEntity newEntity = new TestEntity();
-      newEntity.setName(name);
+      newEntity.setName(dto.getName());
 
       // insert. newEntity will be updated with ID
       testEntityRepository.insertTestEntity(newEntity);
-
       // Map entity to DTO for response
-      TestDTO dto = new TestDTO();
-      dto.setId(newEntity.getId().longValue()); // Assuming ID is generated after persist
-      dto.setName(newEntity.getName());
-      dto.setVorname("");
+      TestDTO result = new TestDTO();
+      result.setId(newEntity.getId().longValue()); // Assuming ID is generated after persist
+      result.setName(newEntity.getName());
+      result.setVorname("");
 
       // Return 201 Created response with DTO
       return Response.status(Response.Status.CREATED)
-          .entity(dto)
+          .entity( result )
           .build();
 
     } catch (Exception e) {

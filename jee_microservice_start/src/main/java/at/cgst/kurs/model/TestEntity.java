@@ -17,7 +17,7 @@ public class TestEntity {
   private Long versionNo;
 
   @Size(max = 600)
-  @Pattern(regexp = "^[a-zA-Z]+$", message = "Must contain only alphabetical characters")
+  // @Pattern(regexp = "^[a-zA-Z]+$", message = "Must contain only alphabetical characters")
   @Column(name = "name", length = 600)
   private String name;
 

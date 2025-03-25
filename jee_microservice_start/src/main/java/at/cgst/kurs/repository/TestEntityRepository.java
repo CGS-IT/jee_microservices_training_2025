@@ -17,20 +17,20 @@ public class TestEntityRepository {
   @Inject
   EntityManager em;
 
-  @Inject
-  UserTransaction utx;
-
-  public Long countChatMessags() {
-
-    Query query = em.createQuery("select count(e) from TestEntity e");
-    return (Long) query.getSingleResult();
-  }
-
   // create insert method
   @Transactional()
   public TestEntity insertTestEntity(TestEntity entity) {
     em.persist(entity);
+
     return entity;
+  }
+
+  public Long countTestEntities() {
+
+    Query query = em.createQuery("select count(e) from TestEntity e");
+
+    return (Long) query.getSingleResult();
+
   }
 
   /**
@@ -57,7 +57,7 @@ public class TestEntityRepository {
 
 
   public TestEntity findTestEntity(String name) {
-    return em.find(TestEntity.class, name);
+    throw new RuntimeException("Not implemented");
   }
   public TestEntity findById(Long id) {
     return this.readTestEntityById(id.intValue());
