@@ -5,6 +5,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import jakarta.transaction.UserTransaction;
 
@@ -59,9 +60,16 @@ public class TestEntityRepository {
   public TestEntity findTestEntity(String name) {
     throw new RuntimeException("Not implemented");
   }
+
+  /**
+   * find by id
+   * @param id
+   * @return
+   */
   public TestEntity findById(Long id) {
     return this.readTestEntityById(id.intValue());
   }
+
 
   public TestEntity readTestEntityById(Integer id) {
     return em.find(TestEntity.class, id);
@@ -71,6 +79,23 @@ public class TestEntityRepository {
     return em.createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e ", entityClass)
         .getResultList();
   }
+
+  /**
+   * find by name
+   * @param name
+   * @return
+   */
+  public List<TestEntity> findByName(String name) {
+
+    TypedQuery<TestEntity> query = em.createQuery(
+        "SELECT e FROM TestEntity e WHERE e.name = :name", TestEntity.class);
+
+    query.setParameter("name", name);
+
+    List<TestEntity> resultList = query.getResultList();
+    return resultList;
+  }
+
 
 }
 

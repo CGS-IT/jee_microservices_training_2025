@@ -12,6 +12,8 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.jboss.logging.Logger;
 
+import java.util.List;
+
 @Path("test")
 public class TestResource {
   private static final Logger LOG = Logger.getLogger(TestResource.class);
@@ -47,18 +49,6 @@ public class TestResource {
     dto.setName(testEntity.getName());
     dto.setVorname("");
     return dto;
-  }
-
-  // http://localhost:8080/parameter/queryParameter?qp=inputText&qp2=text2
-  @GET
-  @Path("/queryParameter")
-  @Produces(MediaType.TEXT_PLAIN)
-  public String queryParameter(
-      @QueryParam("qp") String qp,
-      @DefaultValue("1") @QueryParam("qp2") Long qP2
-  ){
-    LOG.infov("log QueryParam: {0}", qp);
-    return "query params ["+ qp + "] und [" + qP2 + "]";
   }
 
   @POST
@@ -104,5 +94,72 @@ public class TestResource {
     }
   }
 
+  @PUT
+  @Path("/{id}")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  public Response updateTestEntity(
+      @Parameter(description = "ID of the TestEntity to update", required = true)
+      @PathParam("id") Long id,
+      @Parameter(description = "Updated TestEntity data", required = true)
+      TestDTO dto
+  ) {
+    LOG.infov("Updating TestEntity with ID: {0}", id);
+
+    if (dto == null || dto.getName() == null || dto.getName().isEmpty()) {
+      LOG.warn("Invalid input in request body");
+      return Response.status(Response.Status.BAD_REQUEST)
+          .entity("Name field cannot be empty")
+          .build();
+    }
+
+    try {
+      // Fetch existing entity
+      TestEntity existingEntity = testEntityRepo.findById(id);
+      if (existingEntity == null) {
+        LOG.warnv("TestEntity with ID {0} not found", id);
+        return Response.status(Response.Status.NOT_FOUND)
+            .entity("Entity not found")
+            .build();
+      }
+
+      // Update fields
+      existingEntity.setName(dto.getName());
+      // Optional: update other fields like vorname
+      // existingEntity.setVorname(dto.getVorname());
+
+      // Persist the changes
+      testEntityRepo.updateTestEntity(existingEntity);
+
+      // Build response DTO
+      TestDTO responseDto = new TestDTO();
+      responseDto.setId(existingEntity.getId().longValue());
+      responseDto.setName(existingEntity.getName());
+      responseDto.setVorname(""); // Fill as needed
+
+      return Response.ok(responseDto).build();
+
+    } catch (Exception e) {
+      LOG.error("Error updating TestEntity", e);
+      return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+          .entity("Error updating entity")
+          .build();
+    }
+  }
+
+
+  // http://localhost:8080/parameter/queryParameter?qp=inputText&qp2=text2
+  @GET
+  @Path("/find")
+  @Produces(MediaType.TEXT_PLAIN)
+  public String queryParameter(
+      @QueryParam("name") String name
+  ){
+    LOG.infov("log QueryParam: {0}", name);
+
+    List<TestEntity> byName = this.testEntityRepo.findByName(name);
+    return "Anzahl TestEntities: " + byName.size();
+
+  }
 
 }
