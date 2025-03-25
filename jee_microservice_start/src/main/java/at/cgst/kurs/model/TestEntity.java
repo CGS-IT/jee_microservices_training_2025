@@ -1,6 +1,7 @@
 package at.cgst.kurs.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -15,8 +16,9 @@ public class TestEntity {
   @Column(name = "version_no", nullable = false)
   private Long versionNo;
 
-  @Size(max = 500)
-  @Column(name = "name", length = 500)
+  @Size(max = 600)
+  @Pattern(regexp = "^[a-zA-Z]+$", message = "Must contain only alphabetical characters")
+  @Column(name = "name", length = 600)
   private String name;
 
   public Integer getId() {
