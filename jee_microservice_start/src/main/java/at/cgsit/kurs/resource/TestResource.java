@@ -11,8 +11,14 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import at.cgsit.kurs.dto.TestDTO;
 import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.metrics.MetricUnits;
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.ExampleObject;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.jboss.logging.Logger;
 
 import java.net.URI;
@@ -41,6 +47,9 @@ public class TestResource {
   @GET
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
+  @Counted(name = "readObjectById", description = "How many primality checks have been performed.")
+  @Timed( name = "readObjectById_timed", description = "A measure of how long it takes to perform the primality test.",
+      unit = MetricUnits.MILLISECONDS)
   public TestDTO readObjectById( @PathParam("id") Integer id) {
 
     LOG.infov("input {0} , objectOutput {1}", id, "");
@@ -59,7 +68,32 @@ public class TestResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
   public Response createTestEntity (
-      @Parameter(description = "TestEntity to create", required = true)
+      @RequestBody(
+          description = "Create a TestDTO",
+          required = true,
+          content = @Content(
+              mediaType = "application/json",
+              examples = {
+                  @ExampleObject(
+                      name = "minimal",
+                      summary = "Minimal input with only 'name'",
+                      value = "{ \"name\": \"Frank\" }"
+                  ),
+                  @ExampleObject(
+                      name = "full",
+                      summary = "Full input with all fields",
+                      value = "{\n" +
+                          "  \"id\": 1,\n" +
+                          "  \"versionNumber\": 1,\n" +
+                          "  \"name\": \"Tee\",\n" +
+                          "  \"vorname\": \"chris\",\n" +
+                          "  \"isOk\": true,\n" +
+                          "  \"eventDate\": \"2025-03-26\"\n" +
+                          "}"
+                  )
+              }
+          )
+      )
       @Valid TestDTO dto
   ) {
     LOG.infov("Creating new TestEntity with name: {0}", dto.getName());
