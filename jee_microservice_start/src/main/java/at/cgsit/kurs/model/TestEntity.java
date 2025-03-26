@@ -9,6 +9,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "test")
+@NamedQuery(
+    name = "TestEntity.findByIdWithChildren",
+    query = "SELECT t FROM TestEntity t LEFT JOIN FETCH t.children WHERE t.id = :id"
+)
 public class TestEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -40,8 +44,8 @@ public class TestEntity {
   }
 
 
-  public Long getId() {
-    return id.longValue();
+  public Integer getId() {
+    return id;
   }
 
   public void setId(Integer id) {

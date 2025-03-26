@@ -35,6 +35,14 @@ public class ChildEntity {
         }
     }
 
+    public ChildEntity() {
+    }
+
+    public ChildEntity(String childName, TestEntity parent) {
+        this.childName = childName;
+        this.setTestEntity(parent);
+    }
+
     public Long getId() {
         return id;
     }

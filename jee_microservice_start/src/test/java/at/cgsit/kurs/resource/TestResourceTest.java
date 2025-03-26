@@ -5,6 +5,9 @@ import io.restassured.http.ContentType;
 import at.cgsit.kurs.dto.TestDTO;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -57,5 +60,21 @@ class TestResourceTest {
     // assertNotNull(dto.getEventDate());
   }
 
+  @Test
+  public void testCreateTestEntity() {
+    Map<String, Object> dto = new HashMap<>();
+    dto.put("name", "John");
 
+    given()
+        .contentType(ContentType.JSON)
+        .body(dto)
+        .when()
+        .post("/test") // adjust this path to match your endpoint
+        .then()
+        .log().body()
+        .statusCode(201)
+        .body("id", greaterThan(0))
+        .body("name", equalTo("John")); // Since response DTO sets vorname = ""
   }
+
+}

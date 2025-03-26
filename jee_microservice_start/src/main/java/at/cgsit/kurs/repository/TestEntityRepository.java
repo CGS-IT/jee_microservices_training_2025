@@ -98,7 +98,7 @@ public class TestEntityRepository {
     if(em.contains(entity)){
       em.remove(entity);
     } else {
-      this.deleteById(entity.getId());
+      this.deleteById(entity.getId().longValue());
     }
 
 
@@ -198,6 +198,18 @@ public class TestEntityRepository {
     }
 
     return query.getResultList();
+  }
+
+  /**
+   * find by id with children
+   * @param id
+   * @return
+   */
+  public TestEntity findByIdWithChildren(Integer id) {
+
+      TypedQuery<TestEntity> namedQuery = em.createNamedQuery("TestEntity.findByIdWithChildren", TestEntity.class);
+      namedQuery.setParameter(TestEntity_.ID, id);
+      return namedQuery.getSingleResult();
   }
 
 

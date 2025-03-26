@@ -60,6 +60,8 @@ class TestEntityRepositoryTest {
   @BeforeAll
   @Transactional
   void initData() {
+    // dbunit.cleanINsert("/data/testentity.xml");
+    // repository.deleteTestEntity();
     repository.insertTestEntity(new TestEntity(TestNames.CHRIS.value));
     repository.insertTestEntity(new TestEntity(TestNames.FRANK.value));
   }

@@ -17,7 +17,8 @@ public class GreetingFormatterTest {
     @CsvSource({
         "Alice, Hello Alice!",
         "Bob, Hello Bob!",
-        "Quarkus, Hello Quarkus!"
+        "Quarkus, Hello Quarkus!",
+        "Quarkus2, Hello Quarkus2!",
     })
     void testFormatGreeting(String input, String expected) {
         assertEquals(expected, formatGreeting(input));

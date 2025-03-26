@@ -1,8 +1,11 @@
 package at.cgsit.kurs.resource;
 
+import at.cgsit.kurs.dto.ChildDto;
+import at.cgsit.kurs.model.ChildEntity;
 import at.cgsit.kurs.model.TestEntity;
 import at.cgsit.kurs.repository.TestEntityRepository;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -12,6 +15,7 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.jboss.logging.Logger;
 
+import java.net.URI;
 import java.util.List;
 
 @Path("test")
@@ -189,5 +193,28 @@ public class TestResource {
     }
   }
 
+  @POST
+  @Path("/{parentId}/child")
+  @Transactional
+  public Response addChildToParent(
+      @PathParam("parentId") Integer parentId,
+      ChildDto childInput) {
+
+    TestEntity parent = testEntityRepo.findById(parentId.longValue());
+    if (parent == null) {
+      return Response.status(Response.Status.NOT_FOUND)
+          .entity("Parent TestEntity with ID " + parentId + " not found.")
+          .build();
+    }
+
+    ChildEntity child = new ChildEntity(childInput.getChildName(), parent);
+    parent.addChild(child);
+
+    testEntityRepo.updateTestEntity(parent);
+
+    return Response.created(URI.create("/test/" + parentId + "/child/" + childInput.getId()))
+        .entity("Child added successfully.")
+        .build();
+  }
 
 }

@@ -2,10 +2,7 @@ package at.cgsit.kurs.appbean;
 
 import io.quarkus.test.component.QuarkusComponentTest;
 import jakarta.inject.Inject;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -24,6 +21,7 @@ public class RetryServiceTest {
     }
 
     @RepeatedTest(5)
+    //@Order(1)
     void shouldEventuallySucceedWithinRetries() {
         boolean result = false;
         for (int i = 0; i < 3; i++) {
