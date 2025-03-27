@@ -3,6 +3,7 @@ package at.cgsit.kurs.resource;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 import at.cgsit.kurs.dto.TestDTO;
+import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -15,6 +16,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @QuarkusTest
 class TestResourceTest {
+
+  //@Inject
+  // TestResource testResource;
+
 
     @Test
     public void testReadObjectById_ValidInput() {
@@ -75,6 +80,10 @@ class TestResourceTest {
         .statusCode(201)
         .body("id", greaterThan(0))
         .body("name", equalTo("John")); // Since response DTO sets vorname = ""
+
+      // mögliche nochmals prüfung ob die daten auch in der datenbank angelegt wurden
+      // this.testResource.readObjectById(1L);
+
   }
 
 }

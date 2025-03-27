@@ -6,6 +6,7 @@ import java.time.LocalTime;
 
 @ApplicationScoped
 public class TimeService {
+
     public String getCurrentTime() {
         return LocalTime.now().toString();
     }

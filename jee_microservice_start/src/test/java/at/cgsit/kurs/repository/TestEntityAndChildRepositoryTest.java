@@ -6,9 +6,7 @@ import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 
 import java.util.List;
 
@@ -48,7 +46,20 @@ class TestEntityAndChildRepositoryTest {
     repository.insertTestEntity(new TestEntity(TestNames.CHRIS.value));
     repository.insertTestEntity(new TestEntity(TestNames.FRANK.value));
   }
+  @AfterAll
+  void afterAll() {
+    // dbunit.cleanINsert("/data/testentity.xml");
+  }
 
+  @BeforeEach
+  void setUpBeforeEachTestMehtod() {
+    // dbunit.cleanINsert("/data/testentity.xml");
+  }
+
+  @AfterEach
+  void tearDownAfterEachTestMethod() {
+    // dbunit.cleanINsert("/data/testentity.xml");
+  }
 
   /**
    * add a child entity to a parent entity

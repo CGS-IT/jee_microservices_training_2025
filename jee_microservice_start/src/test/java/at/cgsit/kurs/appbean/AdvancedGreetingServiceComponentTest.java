@@ -19,6 +19,7 @@ public class AdvancedGreetingServiceComponentTest {
 
     @Test
     public void testGreetWithMockedTime() {
+
         when(timeService.getCurrentTime()).thenReturn("12:00");
 
         String result = greetingService.greet("Alice");
