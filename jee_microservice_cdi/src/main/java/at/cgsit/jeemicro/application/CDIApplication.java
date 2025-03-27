@@ -25,7 +25,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
                         name = "Apache 2.0",
                         url = "https://www.apache.org/licenses/LICENSE-2.0.html"))
 )
-// @ApplicationPath("/api")
+@ApplicationPath("/api")
 public class CDIApplication extends Application {
 }
 
