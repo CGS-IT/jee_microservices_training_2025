@@ -12,6 +12,7 @@
         <module>jee_microservice_start</module>
         <module>jee_microservice_cdi</module>
         <module>jee_microservice_base_security</module>
+        <module>jee_microservice_messaging</module>
     </modules>
 
 </project>
