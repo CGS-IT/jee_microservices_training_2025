@@ -4,18 +4,21 @@ import jakarta.enterprise.context.RequestScoped;
 
 import java.util.Locale;
 
-@RequestScoped
 @Logged
+@RequestScoped
 public class RSBeanInterceptedExample {
 
-    public String echoReverse(String input) {
+    public String echoReverseSub(String input) {
         StringBuilder inputSB = new StringBuilder();
         StringBuilder reverse = inputSB.append(input).reverse();
         return reverse.toString().toUpperCase(Locale.ROOT);
     }
 
-    public String echoReverse2(String input) {
-        String reverse = echoReverse(input);
+    public String echoReverseEntry(String input) {
+        String reverse = echoReverseSub(input);
+            // if(true)
+            //    throw  new RuntimeException("echoReverseEntry exception");
+
         return reverse;
     }
 

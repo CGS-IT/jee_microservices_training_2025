@@ -22,10 +22,16 @@ public class LoggingInterceptor {
 
         logger.info("object before: " + context.getMethod().getName());
 
+        // insert into history logging table or kafka topic
+
         Object ret = null;
         try {
+
             ret = context.proceed();
+
             logger.info("object after");
+
+            // insert into history logging table or kafka topic
 
         } catch (RuntimeException ex){
             logger.error("object error", ex);

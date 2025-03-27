@@ -1,7 +1,6 @@
 package at.cgsit.jeemicro.resource.cdi;
 
 import at.cgsit.jeemicro.cdi.logintercept.RSBeanInterceptedExample;
-import at.cgsit.jeemicro.cdi.producer.PBInterface;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -18,7 +17,7 @@ public class CDIInterceptorResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String requestScope() {
 
-        String new_value = interfaceBean.echoReverse2("CDIProducerResource");
+        String new_value = interfaceBean.echoReverseEntry("CDIProducerResource");
         return new_value;
 
     }
