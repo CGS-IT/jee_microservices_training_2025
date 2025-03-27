@@ -11,13 +11,7 @@
     <modules>
         <module>jee_microservice_start</module>
         <module>jee_microservice_cdi</module>
-		<!--
-        <module>jee_microservice_restapi</module>
-        <module>jee_microservice_service</module>
-        <module>jee_microservice_chat</module>
-        <module>jee_microservice_amqp</module>
-        <module>jee_microservice_amqp_producer</module>
-		-->
+        <module>jee_microservice_base_security</module>
     </modules>
 
 </project>
