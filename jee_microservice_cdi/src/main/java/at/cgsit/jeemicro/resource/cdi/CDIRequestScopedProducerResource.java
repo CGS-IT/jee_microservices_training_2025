@@ -18,7 +18,10 @@ public class CDIRequestScopedProducerResource {
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    @Parameter(name = "X-Bean-Type", in = ParameterIn.HEADER, description = "Select which bean to use: 'a' or 'b'", required = true)
+    @Parameter(name = "X-Bean-Type",
+        in = ParameterIn.HEADER,
+        description = "Select which bean to use: 'a' or 'b'",
+        required = true)
     public String requestScope() {
         String new_value = interfaceBean.echo("CDIRequestScopedProducerResource");
         return new_value;

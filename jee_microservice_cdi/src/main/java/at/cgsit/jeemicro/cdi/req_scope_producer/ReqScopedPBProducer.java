@@ -19,7 +19,7 @@ public class ReqScopedPBProducer {
     @RequestScoped
     ReqScopedPBInterface producePB() {
         log.info("ReqScopedPBProducer producer called");
-
+        // X-Bean-Type = b oder a
         String which = headers.getHeaderString("X-Bean-Type");
         if ("a".equalsIgnoreCase(which)) {
             return new ReqScopedPBImplA();

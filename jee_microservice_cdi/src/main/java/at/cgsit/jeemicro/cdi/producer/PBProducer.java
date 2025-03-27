@@ -1,6 +1,7 @@
 package at.cgsit.jeemicro.cdi.producer;
 
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.Produces;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
@@ -17,7 +18,8 @@ public class PBProducer {
     PBInterface producePB() {
         log.info("producer called");
         if( "a".equalsIgnoreCase(beantoProduce)){
-            return new PBImplA();
+            PBImplA a = new PBImplA();
+            return a;
         }
         return new PBImplB();
     }
