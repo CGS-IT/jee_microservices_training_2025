@@ -2,14 +2,16 @@ package at.cgsit.kurs.health;
 
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
+import org.eclipse.microprofile.health.Liveness;
 import org.eclipse.microprofile.health.Readiness;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
 /**
- * check your memory usage
+ * check your memory usage on startup and live state
  */
 @Readiness
+@Liveness
 @ApplicationScoped
 public class MemoryHealthCheck implements HealthCheck {
 
