@@ -1,23 +1,24 @@
 package at.cgsit.jeemicro.cdi.buildprofile;
 
+import io.opentelemetry.api.trace.Tracer;
 import io.quarkus.arc.DefaultBean;
 import io.quarkus.arc.profile.IfBuildProfile;
 import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.ws.rs.Produces;
-import jdk.javadoc.doclet.Reporter;
 
-@Dependent
 public class TracerConfiguration {
 
     @Produces
-    @IfBuildProfile("prod")
-    public Tracer realTracer() {
+    // @IfBuildProfile("prod")
+    @RequestScoped
+    public MyTracer realTracer() {
         return new TracerImplTwo();
+    }
+    @Produces
+    @IfBuildProfile("dev")
+    public MyTracer noopTracer() {
+        return new TracerImpl();
     }
 
-    @Produces
-    @DefaultBean
-    public Tracer noopTracer() {
-        return new TracerImplTwo();
-    }
 }
