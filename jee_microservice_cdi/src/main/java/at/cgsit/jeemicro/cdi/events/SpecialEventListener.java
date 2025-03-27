@@ -17,7 +17,12 @@ public class SpecialEventListener {
     }
 
     void onSpecialEventCompletedAsynchronous(@ObservesAsync SpecialEvent event) {
-        log.info("SpecialEventListener ObservesAsync called: " + event.getMessage());
+      try {
+        Thread.sleep(3000);
+      } catch (InterruptedException e) {
+        throw new RuntimeException(e);
+      }
+      log.info("SpecialEventListener ObservesAsync called: " + event.getMessage());
     }
 
 }

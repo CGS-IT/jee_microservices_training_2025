@@ -17,6 +17,9 @@ public class SpecialService {
     public void doSomething() {
         log.info("SpecialService called before event.fire");
         event.fire(new SpecialEvent("Special Event"));
+
+        event.fireAsync(new SpecialEvent("Special message"));
+
         log.info("SpecialService called AFTER event");
     }
 }
