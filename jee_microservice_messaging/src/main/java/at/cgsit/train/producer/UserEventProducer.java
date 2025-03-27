@@ -1,7 +1,7 @@
 package at.cgsit.train.producer;
 
-//import org.eclipse.microprofile.reactive.messaging.Channel;
-// import org.eclipse.microprofile.reactive.messaging.Emitter;
+import org.eclipse.microprofile.reactive.messaging.Channel;
+import org.eclipse.microprofile.reactive.messaging.Emitter;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -11,6 +11,7 @@ public class UserEventProducer {
 
     @Inject
     @Channel("user-events")
+    //@Channel("internal")
     Emitter<String> emitter;
 
     public void send(String message) {
