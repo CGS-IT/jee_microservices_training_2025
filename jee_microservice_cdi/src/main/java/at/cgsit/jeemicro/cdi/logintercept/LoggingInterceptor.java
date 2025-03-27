@@ -28,8 +28,8 @@ public class LoggingInterceptor {
         // insert into history logging table or kafka topic
 
         // change teh parameter value within the interceptor
-        parameters[0] = "INTERCEPTOR changed value ";
-        context.setParameters(parameters);
+        // parameters[0] = "INTERCEPTOR changed value ";
+        // context.setParameters(parameters);
 
         Object ret = null;
         try {

@@ -3,7 +3,6 @@ package at.cgsit.jeemicro.cdi.logintercept;
 import jakarta.enterprise.context.RequestScoped;
 
 import java.util.Locale;
-
 @Logged
 @RequestScoped
 public class RSBeanInterceptedExample {
