@@ -1,0 +1,114 @@
+openapi: 3.0.3
+info:
+  title: kurs_jeemicro API
+  version: 1.0-SNAPSHOT
+paths:
+  /gen_testdto:
+    get:
+      tags:
+        - Generated Test Dto Resource
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GenTestDTO'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GenTestDTO'
+    post:
+      tags:
+        - Test Dto Resource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenTestDTO'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenTestDTO'
+  /gen_testdto/{id}:
+    get:
+      tags:
+        - Test Dto Resource
+      summary: read a Test DTO Object by ID
+      description: read a Test DTO Object by ID and return it
+      operationId: readTestDtoById
+      parameters:
+        - name: id
+          in: path
+          description: The TestDTO Input object to store
+          required: true
+          schema:
+            type: string
+          allowEmptyValue: false
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenTestDTO'
+    put:
+      tags:
+        - Test Dto Resource
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenTestDTO'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenTestDTO'
+    delete:
+      tags:
+        - Test Dto Resource
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+components:
+  schemas:
+    GenTestDTO:
+      type: object
+      properties:
+        id:
+          format: int64
+          type: integer
+        name:
+          type: string
+        vorname:
+          type: string
+  securitySchemes:
+    SecurityScheme:
+      type: http
+      description: Authentication
+      scheme: basic
