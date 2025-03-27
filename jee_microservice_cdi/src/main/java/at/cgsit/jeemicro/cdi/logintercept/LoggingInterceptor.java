@@ -21,7 +21,10 @@ public class LoggingInterceptor {
     Object logInvocation(InvocationContext context) throws Exception {
 
         logger.info("object before: " + context.getMethod().getName());
-
+        Object[] parameters = context.getParameters();
+        for (Object parameter : parameters) {
+            logger.info("parameter: " + parameter);
+        }
         // insert into history logging table or kafka topic
 
         Object ret = null;
@@ -31,7 +34,7 @@ public class LoggingInterceptor {
 
             logger.info("object after");
 
-            // insert into history logging table or kafka topic
+            logger.info("return object : [" + ret + "]");
 
         } catch (RuntimeException ex){
             logger.error("object error", ex);

@@ -17,7 +17,7 @@ public class CDIInterceptorResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String requestScope() {
 
-        String new_value = interfaceBean.echoReverseEntry("CDIProducerResource");
+        String new_value = interfaceBean.echoReverseEntry("My Input Text Value ");
         return new_value;
 
     }
