@@ -14,11 +14,12 @@ public class SetterInjection {
 
     @Inject
     public void setCdiBean(SimpleCDIBean cdiBean) {
+        log.info("set CDI Bean in SetterInjection");
         this.cdiBean = cdiBean;
     }
 
     public String echo(String input) {
-        log.info("SetterInjection");
+        log.info("Echo: SetterInjection");
         return cdiBean.echo(input);
     }
 

@@ -14,13 +14,14 @@ import jakarta.ws.rs.core.MediaType;
 public class CDIQualifyResource {
 
     @Inject
-    @QualifyB
+    @QualifyA
     QBean interfaceBean;
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String requestScope() {
         String new_value = interfaceBean.echo("CDIQualifyResource");
+
         return new_value;
     }
 }

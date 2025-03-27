@@ -18,7 +18,7 @@ public class ConstructorInjection {
     }
 
     public String echo(String input) {
-        log.info("SetterInjection");
+        log.info("Echo: ConstructorInjection");
         return cdiBean.echo(input);
     }
 }
