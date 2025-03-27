@@ -26,7 +26,7 @@ public class DbHealthCheck implements HealthCheck {
     @Override
     public HealthCheckResponse call() {
         try {
-            em.createNativeQuery("SELECT 1").getSingleResult();
+            em.createNativeQuery("SELECT 1");
             return HealthCheckResponse.up("database");
         } catch (Exception e) {
             return HealthCheckResponse.down("database");
