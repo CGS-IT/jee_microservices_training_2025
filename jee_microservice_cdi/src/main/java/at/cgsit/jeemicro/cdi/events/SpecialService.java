@@ -5,6 +5,8 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import org.jboss.logging.Logger;
 
+import java.util.concurrent.CompletionStage;
+
 @Singleton
 public class SpecialService {
 
@@ -16,9 +18,13 @@ public class SpecialService {
 
     public void doSomething() {
         log.info("SpecialService called before event.fire");
+
         event.fire(new SpecialEvent("Special Event"));
 
-        event.fireAsync(new SpecialEvent("Special message"));
+        CompletionStage<SpecialEvent> specialMessage = event.fireAsync(new SpecialEvent("Special message"));
+        // TODO my work
+        // wait for asynchonos processing to be completed if required
+        // SpecialEvent join = specialMessage.toCompletableFuture().join();
 
         log.info("SpecialService called AFTER event");
     }
