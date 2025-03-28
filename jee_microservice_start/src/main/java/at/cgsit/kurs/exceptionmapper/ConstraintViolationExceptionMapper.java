@@ -1,4 +1,4 @@
-package at.cgsit.kurs.exception;
+package at.cgsit.kurs.exceptionmapper;
 
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.ext.ExceptionMapper;

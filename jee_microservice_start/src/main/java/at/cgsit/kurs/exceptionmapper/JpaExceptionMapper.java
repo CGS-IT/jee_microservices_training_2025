@@ -1,7 +1,6 @@
-package at.cgsit.kurs.exception;
+package at.cgsit.kurs.exceptionmapper;
 
 import at.cgsit.kurs.dto.ErrorResponse;
-import jakarta.inject.Inject;
 import jakarta.persistence.PersistenceException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;

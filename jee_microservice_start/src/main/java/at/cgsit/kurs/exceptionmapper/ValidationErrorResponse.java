@@ -1,4 +1,4 @@
-package at.cgsit.kurs.exception;
+package at.cgsit.kurs.exceptionmapper;
 
 import at.cgsit.kurs.dto.ErrorResponse;
 

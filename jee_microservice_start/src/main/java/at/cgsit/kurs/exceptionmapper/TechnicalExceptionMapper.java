@@ -1,9 +1,8 @@
-package at.cgsit.kurs.exception;
+package at.cgsit.kurs.exceptionmapper;
 
 import at.cgsit.kurs.dto.ErrorResponse;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.ext.ExceptionMapper;
-import jakarta.ws.rs.ext.Provider;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.MediaType;
 import org.jboss.logging.Logger;
