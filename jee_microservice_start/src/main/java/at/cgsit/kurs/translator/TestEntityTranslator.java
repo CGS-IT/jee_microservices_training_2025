@@ -21,11 +21,21 @@ public class TestEntityTranslator {
     }
 
     public TestEntity toEntity(TestDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+
         TestEntity entity = new TestEntity();
-        entity.setId(dto.getId().intValue()); // or null-safe
-        entity.setVersionNo(dto.getVersionNumber());
+
+        // Null-safe conversion from Long to Integer
+        Long dtoId = dto.getId();
+        entity.setId(dtoId != null ? dtoId.intValue() : null);
+
+        entity.setVersionNo(dto.getVersionNumber()); // assuming it's already nullable-safe
         entity.setName(dto.getName());
-        // etc.
+
+        entity.setVersionNo(dto.getVersionNumber());
+
         return entity;
     }
 }

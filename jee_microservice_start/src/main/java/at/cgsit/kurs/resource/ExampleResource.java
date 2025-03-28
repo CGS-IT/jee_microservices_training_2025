@@ -6,6 +6,10 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import org.jboss.logging.Logger;
 
+
+/**
+ *  ExampleResource from the quarkus quickstart guide
+ */
 @Path("/hello3")
 public class ExampleResource {
   private static final Logger LOG = Logger.getLogger(ExampleResource.class);

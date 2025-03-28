@@ -4,6 +4,9 @@ import at.cgsit.kurs.dto.ChildDto;
 import at.cgsit.kurs.model.ChildEntity;
 import at.cgsit.kurs.model.TestEntity;
 import at.cgsit.kurs.repository.TestEntityRepository;
+import at.cgsit.kurs.service.EnhancedTestService;
+import at.cgsit.kurs.service.TestService;
+import at.cgsit.kurs.translator.TestEntityTranslator;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -17,8 +20,11 @@ import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.ExampleObject;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.jboss.logging.Logger;
 
 import java.net.URI;
@@ -29,7 +35,61 @@ public class TestResource {
   private static final Logger LOG = Logger.getLogger(TestResource.class);
 
   @Inject
+  EnhancedTestService service;
+  // TestService service;
+
+  // TODO move all business logic to service layer
+  // direct usage of repository is not recommended here anymore
+  @Inject
   TestEntityRepository testEntityRepo;
+
+  @Inject
+  TestEntityTranslator translator;
+
+  /**
+   * Get all TestDTO objects or filter by name and return a page of results
+   * now using aservice layer to fetch data and do business logic
+   * @param name name to filter by as query parameter
+   * @param page page number
+   * @param size page size
+   * @return
+   */
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  @Operation(
+      summary = "Get all TestDTOs or filter by name",
+      description = "Returns a paginated list of TestDTO objects, optionally filtered by name. Uses a service layer for business logic."
+  )
+  @APIResponses({
+      @APIResponse(
+          responseCode = "200",
+          description = "Page of TestDTO results",
+          content = @Content(
+              mediaType = "application/json",
+              schema = @Schema(implementation = TestDTO.class)
+          )
+      ),
+      @APIResponse(
+          responseCode = "400",
+          description = "Invalid request parameters"
+      )
+  })
+  public List<TestDTO> getAllOrByNamePaged(
+      @Parameter(description = "Filter by name", example = "Chris")
+      @QueryParam("name") String name,
+
+      @Parameter(description = "Page number", example = "0")
+      @QueryParam("page") @DefaultValue("0") int page,
+
+      @Parameter(description = "Page size", example = "10")
+      @QueryParam("size") @DefaultValue("10") int size)
+  {
+    LOG.infov("Fetching page {0} with size {1}, filtered by name: {2}", page, size, name);
+
+    // call the business logic layer which also makes the data DTO translation
+    return service.findByNamePaged(name, page, size);
+
+  }
 
   @GET
   @Path("/count")
@@ -56,12 +116,7 @@ public class TestResource {
 
     TestEntity testEntity = testEntityRepo.readTestEntityById(id);
 
-    TestDTO dto = new TestDTO();
-    dto.setId(testEntity.getId().longValue());
-    dto.setVersionNumber(testEntity.getVersionNo());
-    dto.setName(testEntity.getName());
-    dto.setVorname("");
-    return dto;
+    return translator.toDTO(testEntity);
   }
 
   @POST
@@ -98,30 +153,12 @@ public class TestResource {
   ) {
     LOG.infov("Creating new TestEntity with name: {0}", dto.getName());
 
-    try {
-      // Create and populate TestEntity from DTO values
-      TestEntity newEntity = new TestEntity();
-      newEntity.setName(dto.getName());
-
-      // insert. newEntity will be updated with ID
-      testEntityRepo.insertTestEntity(newEntity);
-      // Map entity to DTO for response
-      TestDTO result = new TestDTO();
-      result.setId(newEntity.getId().longValue()); // Assuming ID is generated after persist
-      result.setName(newEntity.getName());
-      result.setVorname("");
+      TestDTO testDTO = service.create(dto);// 🛡️ call the service layer to create the entity
 
       // Return 201 Created response with DTO
       return Response.status(Response.Status.CREATED)
-          .entity( result )
+          .entity( testDTO )
           .build();
-
-    } catch (Exception e) {
-      LOG.error("Error creating TestEntity", e);
-      return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-          .entity("Error creating entity")
-          .build();
-    }
   }
 
   @PUT
@@ -142,8 +179,6 @@ public class TestResource {
           .entity("Name field cannot be empty")
           .build();
     }
-
-    try {
       // Fetch existing entity
       TestEntity existingEntity = testEntityRepo.findById(id);
       if (existingEntity == null) {
@@ -161,21 +196,9 @@ public class TestResource {
       // Persist the changes
       testEntityRepo.updateTestEntity(existingEntity);
 
-      // Build response DTO
-      TestDTO responseDto = new TestDTO();
-      responseDto.setId(existingEntity.getId().longValue());
-      responseDto.setVersionNumber(existingEntity.getVersionNo());
-      responseDto.setName(existingEntity.getName());
-      responseDto.setVorname(""); // Fill as needed
-
-      return Response.ok(responseDto).build();
-
-    } catch (Exception e) {
-      LOG.error("Error updating TestEntity", e);
-      return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-          .entity("Error updating entity")
+      return Response
+          .ok(translator.toDTO(existingEntity))
           .build();
-    }
   }
 
 

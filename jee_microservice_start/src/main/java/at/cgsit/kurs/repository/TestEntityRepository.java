@@ -212,6 +212,9 @@ public class TestEntityRepository {
       return namedQuery.getSingleResult();
   }
 
+  public void deleteAll() {
+    em.createQuery("DELETE FROM TestEntity").executeUpdate();
+  }
 
 }
 

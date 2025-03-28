@@ -13,8 +13,8 @@ import jakarta.ws.rs.core.MediaType;
 import java.util.Optional;
 
 @Path("/configProperty")
-public class DemoMicroResource {
-  private static final Logger LOG = Logger.getLogger(DemoMicroResource.class);
+public class ConfigPropertyResource {
+  private static final Logger LOG = Logger.getLogger(ConfigPropertyResource.class);
 
   @ConfigProperty(name = "greeting.message", defaultValue = "default-value")
   String message;
