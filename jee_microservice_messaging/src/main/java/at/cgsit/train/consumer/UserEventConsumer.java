@@ -14,6 +14,7 @@ public class UserEventConsumer {
     @Incoming("user-events")
     // @Incoming("internal")
     public void receive(String message) {
-        logger.infov("🟢 Received event[{0}] ", message);
+
+        logger.infov("Received event[{0}] ", message);
     }
 }
