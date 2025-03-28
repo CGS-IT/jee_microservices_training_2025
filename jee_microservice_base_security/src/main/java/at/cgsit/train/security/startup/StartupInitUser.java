@@ -23,7 +23,7 @@ public class StartupInitUser {
 
         // reset and load all test users
         User.deleteAll();
-        User.add("admin", "admin", "admin");
-        User.add("user", "user", "user");
+        User.add("admin", "admin", "admin_role");
+        User.add("user", "user", "user_role");
     }
 }

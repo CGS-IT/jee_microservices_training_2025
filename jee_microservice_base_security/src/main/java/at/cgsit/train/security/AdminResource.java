@@ -11,7 +11,7 @@ import jakarta.ws.rs.core.MediaType;
 public class AdminResource {
 
     @GET
-    @RolesAllowed("admin")
+    @RolesAllowed("admin_role")
     @Produces(MediaType.TEXT_PLAIN)
     public String adminResource() {
         return "admin";
