@@ -71,11 +71,12 @@
             <artifactId>quarkus-hibernate-orm-panache</artifactId>
         </dependency>
 
+        <!-- Einschalten bei Bedarf
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-container-image-docker</artifactId>
         </dependency>
-
+        -->
         <!--
         <dependency>
             <groupId>io.quarkus</groupId>
