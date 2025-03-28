@@ -81,6 +81,7 @@
 
     <build>
         <plugins>
+            <!--
             <plugin>
                 <groupId>io.quarkiverse.openapi.generator</groupId>
                 <artifactId>quarkus-openapi-generator-maven-plugin</artifactId>
@@ -103,7 +104,7 @@
                     </specifications>
                 </configuration>
             </plugin>
-
+            -->
             <plugin>
                 <groupId>${quarkus.platform.group-id}</groupId>
                 <artifactId>quarkus-maven-plugin</artifactId>
