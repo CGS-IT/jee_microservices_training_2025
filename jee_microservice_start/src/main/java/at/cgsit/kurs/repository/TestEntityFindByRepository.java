@@ -1,6 +1,7 @@
 package at.cgsit.kurs.repository;
 
 import at.cgsit.kurs.model.TestEntity;
+import at.cgsit.kurs.model.TestEntity_;
 import at.cgsit.kurs.repoadapt.TestEntityRepositoryInterface;
 import jakarta.annotation.Priority;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -34,7 +35,7 @@ public class TestEntityFindByRepository implements TestEntityRepositoryInterface
 
         TypedQuery<TestEntity> query = em.createQuery(jpql, TestEntity.class);
         if (hasName) {
-            query.setParameter("name", name);
+            query.setParameter(TestEntity_.NAME, name);
         }
 
         return query
