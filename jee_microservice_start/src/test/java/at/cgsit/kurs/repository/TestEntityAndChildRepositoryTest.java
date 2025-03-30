@@ -1,7 +1,9 @@
 package at.cgsit.kurs.repository;
 
+import at.cgsit.kurs.data.TestNames;
 import at.cgsit.kurs.model.ChildEntity;
 import at.cgsit.kurs.model.TestEntity;
+import at.cgsit.kurs.testutil.TestDefaults;
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -21,20 +23,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TestEntityAndChildRepositoryTest {
 
-  enum TestNames {
-    CHRIS("Chris"),
-    FRANK("Frank"),
-    INSERTED("insertedName"),
-    UPDATED("updatedName"),
-    TO_DELETE("toDelete");
-
-    final String value;
-
-    TestNames(String value) {
-      this.value = value;
-    }
-  }
-
   @Inject
   TestEntityRepository repository;
 
@@ -42,9 +30,11 @@ class TestEntityAndChildRepositoryTest {
   @Transactional
   void initData() {
     // dbunit.cleanINsert("/data/testentity.xml");
-    // repository.deleteTestEntity();
-    repository.insertTestEntity(new TestEntity(TestNames.CHRIS.value));
-    repository.insertTestEntity(new TestEntity(TestNames.FRANK.value));
+    // we delete the test entities here, because our startup Observer will insert or default data already
+    // and we need to guarantee that the data is in the same state for each test
+    repository.deleteAll();
+    repository.insertTestEntity(new TestEntity(TestNames.HERR_MANN.getName(), TestNames.HERR_MANN.getVorname()));
+    repository.insertTestEntity(new TestEntity(TestNames.FRANK_ELSTNER.getName(), TestNames.FRANK_ELSTNER.getVorname()));
   }
   @AfterAll
   void afterAll() {
@@ -69,26 +59,26 @@ class TestEntityAndChildRepositoryTest {
   @TestTransaction
   void testInsertChildEntity() {
 
-    List<TestEntity> resultList = repository.findByName(TestNames.FRANK.value);
-    TestEntity frank = resultList.get(0);
+    List<TestEntity> resultList = repository.findByName(TestNames.FRANK_ELSTNER.getName());
+    TestEntity frank = resultList.getFirst();
 
-    ChildEntity childEntity = new ChildEntity("child1", frank);
+    ChildEntity childEntity = new ChildEntity(TestDefaults.CHILD_NAME, frank);
 
     repository.updateTestEntity(frank);
 
     // check if child is in the list
     List<TestEntity> byName = repository.findByName(frank.getName());
-
     assertEquals(1, byName.size());
-    TestEntity frankFound = resultList.get(0);
+
+    TestEntity frankFound = resultList.getFirst();
     int size = frankFound.getChildren().size();
     assertEquals(1, size);
-    assertEquals("child1", frankFound.getChildren().get(0).getChildName());
+    assertEquals(TestDefaults.CHILD_NAME, frankFound.getChildren().getFirst().getChildName());
 
     // eager load the children with joined query
     TestEntity byIdWithChildren = repository.findByIdWithChildren(frankFound.getId());
 
-    assertNull(byIdWithChildren);
+    assertNotNull(byIdWithChildren);
 
   }
 

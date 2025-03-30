@@ -3,6 +3,6 @@ package at.cgsit.kurs.resource;
 import io.quarkus.test.junit.QuarkusIntegrationTest;
 
 @QuarkusIntegrationTest
-class ExampleResourceIT extends ExampleResourceTest {
+class HelloResourceIT extends HelloResourceTest {
   // Execute the same tests but in packaged mode.
 }

@@ -128,17 +128,16 @@ public class TestEntityRepository {
    * @return
    */
   public TestEntity findById(Long id) {
-    return this.readTestEntityById(id.intValue());
+    return this.readTestEntityById(id);
   }
 
 
-  public TestEntity readTestEntityById(Integer id) {
+  public TestEntity readTestEntityById(Long id) {
     return em.find(TestEntity.class, id);
   }
 
   /**
    * find by name using JPQL
-   * see {@link #findByNameCriteriaApi(String)} for a critera API version
    * @param name
    * @return
    */
@@ -205,16 +204,23 @@ public class TestEntityRepository {
    * @param id
    * @return
    */
-  public TestEntity findByIdWithChildren(Integer id) {
+  public TestEntity findByIdWithChildren(Long id) {
 
       TypedQuery<TestEntity> namedQuery = em.createNamedQuery("TestEntity.findByIdWithChildren", TestEntity.class);
       namedQuery.setParameter(TestEntity_.ID, id);
       return namedQuery.getSingleResult();
   }
 
+  @Transactional
   public void deleteAll() {
     em.createQuery("DELETE FROM TestEntity").executeUpdate();
   }
+
+  @Transactional
+  public void resetIdSequence() {
+    em.createNativeQuery("ALTER SEQUENCE test_SEQ RESTART WITH 1").executeUpdate();
+  }
+
 
 }
 

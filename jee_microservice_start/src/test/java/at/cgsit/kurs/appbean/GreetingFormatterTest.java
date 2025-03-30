@@ -6,7 +6,10 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@QuarkusComponentTest
+/**
+ * if no bean is required, use a simple junit5 test instead of a QuarkusComponentTest
+ * else use a QuarkusComponentTest or a QuarkusTest if you also use the database / JPA
+ */
 public class GreetingFormatterTest {
 
     public String formatGreeting(String name) {

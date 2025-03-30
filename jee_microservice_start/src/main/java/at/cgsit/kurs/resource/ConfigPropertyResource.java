@@ -12,6 +12,9 @@ import jakarta.ws.rs.core.MediaType;
 
 import java.util.Optional;
 
+/**
+ * ExampleResource from the quarkus quickstart guide
+ */
 @Path("/configProperty")
 public class ConfigPropertyResource {
   private static final Logger LOG = Logger.getLogger(ConfigPropertyResource.class);
@@ -39,11 +42,11 @@ public class ConfigPropertyResource {
   public String showMessageFromConfigurationProperty() {
     LOG.infov(  "INFO  :: showMessage {0}", message);
 
-    String databaseName = ConfigProvider.getConfig().getValue("greeting.message", String.class);
-    Optional<String> maybeDatabaseName = ConfigProvider.getConfig().getOptionalValue("greeting.message", String.class);
+    // String configParamRead = ConfigProvider.getConfig().getValue("greeting.message", String.class);
+    Optional<String> configParamRead = ConfigProvider.getConfig().getOptionalValue("greeting.message", String.class);
 
     try {
-      return "Hello: config read via Config Provider " + maybeDatabaseName;
+      return "Hello: config read via Config Provider " + configParamRead;
     } catch (RuntimeException ex ) {
       LOG.error("fehler beim message lesen ", ex);
     }

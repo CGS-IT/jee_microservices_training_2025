@@ -5,11 +5,12 @@ import at.cgsit.kurs.model.ChildEntity;
 import at.cgsit.kurs.model.TestEntity;
 import at.cgsit.kurs.repository.TestEntityRepository;
 import at.cgsit.kurs.service.EnhancedTestService;
-import at.cgsit.kurs.service.TestService;
 import at.cgsit.kurs.translator.TestEntityTranslator;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import at.cgsit.kurs.dto.TestDTO;
@@ -75,20 +76,21 @@ public class TestResource {
       )
   })
   public List<TestDTO> getAllOrByNamePaged(
-      @Parameter(description = "Filter by name", example = "Chris")
+      @Parameter(description = "Filter by name", example = "Chris", required = false)
       @QueryParam("name") String name,
 
       @Parameter(description = "Page number", example = "0")
-      @QueryParam("page") @DefaultValue("0") int page,
+      @QueryParam("page") @DefaultValue("0") @Min(0) int page,
 
       @Parameter(description = "Page size", example = "10")
-      @QueryParam("size") @DefaultValue("10") int size)
+      @QueryParam("size") @DefaultValue("10") @Min(1) @Max(1000) int size)
   {
     LOG.infov("Fetching page {0} with size {1}, filtered by name: {2}", page, size, name);
 
     // call the business logic layer which also makes the data DTO translation
-    return service.findByNamePaged(name, page, size);
-
+    List<TestDTO> foundResult = service.findByNamePaged(name, page, size);
+    LOG.infov("Anzahl TestEntities: {0}", foundResult != null ? foundResult.size() : "null");
+    return foundResult;
   }
 
   @GET
@@ -110,13 +112,20 @@ public class TestResource {
   @Counted(name = "readObjectById", description = "How many primality checks have been performed.")
   @Timed( name = "readObjectById_timed", description = "A measure of how long it takes to perform the primality test.",
       unit = MetricUnits.MILLISECONDS)
-  public TestDTO readObjectById( @PathParam("id") Integer id) {
+  public TestDTO readTestById(@PathParam("id") Long id) {
 
     LOG.infov("input {0} , objectOutput {1}", id, "");
 
     TestEntity testEntity = testEntityRepo.readTestEntityById(id);
 
-    return translator.toDTO(testEntity);
+    TestDTO result = translator.toDTO(testEntity);
+    if(result == null) {
+      LOG.warnv("TestEntity with ID {0} not found", id);
+      throw new NotFoundException("TestEntity with ID " + id + " not found");
+    }
+    else {
+      return result;
+    }
   }
 
   @POST

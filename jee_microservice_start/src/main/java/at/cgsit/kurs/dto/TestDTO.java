@@ -17,6 +17,16 @@ public class TestDTO {
   @JsonProperty(value = "versionNumber", required = true, access = JsonProperty.Access.READ_WRITE, defaultValue = "0")
   private Long versionNumber;
 
+  /**
+   * TIP - shows bean validation annotations
+   * <br>
+   * <li>- @Pattern: The annotated element must match the specified regular expression.
+   * <li>- @NotEmpty: The annotated element must not be null nor empty.
+   * <br>
+   * if you use this and validate the object in the Rest-API Controller/Resource you can avoid<br/>
+   * manual validation in the controller method itself.
+   *
+   */
   @JsonProperty(value = "name", required = true, access = JsonProperty.Access.READ_WRITE, defaultValue = "nameDefault")
   @Pattern(regexp = "^[a-zA-Z]+$", message = "Must contain only alphabetical characters")
   @NotEmpty
@@ -25,8 +35,25 @@ public class TestDTO {
   @JsonProperty(value = "vorname", required = false, access = JsonProperty.Access.READ_WRITE, defaultValue = "vornameDefault")
   String vorname;
 
-  @JsonProperty(value = "isOk", required = false, access = JsonProperty.Access.READ_WRITE, defaultValue = "true")
-  Boolean isOk;
+
+  /**
+   * TIP
+   * Boolean Field Naming Convention:
+   * <p>
+   * The JavaBeans convention expects boolean getters to follow these rules:
+   * <ul>
+   *   <li><code>isOk()</code> if the field is named <code>ok</code></li>
+   *   <li><code>getOk()</code> if the field is not a primitive <code>boolean</code></li>
+   * </ul>
+   * <p>
+   * If your field is named <code>isOk</code> or <code>isActive</code>, you may end up with:
+   * <ul>
+   *   <li><code>isIsOk()</code> &rarr; awkward and redundant</li>
+   *   <li><code>getIsOk()</code> &rarr; violates the boolean getter convention</li>
+   * </ul>
+   */
+  @JsonProperty(value = "active", required = false, access = JsonProperty.Access.READ_WRITE, defaultValue = "true")
+  Boolean active;
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   public Date eventDate;
@@ -55,13 +82,6 @@ public class TestDTO {
     this.vorname = vorname;
   }
 
-  public Boolean getOk() {
-    return isOk;
-  }
-
-  public void setOk(Boolean ok) {
-    isOk = ok;
-  }
 
   public Date getEventDate() {
     return eventDate;
@@ -69,6 +89,14 @@ public class TestDTO {
 
   public void setEventDate(Date eventDate) {
     this.eventDate = eventDate;
+  }
+
+  public Boolean isActive() {
+    return active;
+  }
+
+  public void setActive(Boolean active) {
+    this.active = active;
   }
 
   public Long getVersionNumber() {
@@ -85,9 +113,11 @@ public class TestDTO {
         "id=" + id +
         ", name='" + name + '\'' +
         ", vorname='" + vorname + '\'' +
-        ", isOk=" + isOk +
+        ", active=" + active +
         ", eventDate=" + eventDate +
         '}';
   }
+
+
 
 }

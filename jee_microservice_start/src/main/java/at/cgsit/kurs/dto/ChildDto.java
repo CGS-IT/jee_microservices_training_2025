@@ -2,18 +2,25 @@ package at.cgsit.kurs.dto;
 
 import at.cgsit.kurs.model.TestEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 
 import java.time.Instant;
 
 /**
+ * this is the dto for the child entity {@see ChildEntity}
  *
  */
+@JsonPropertyOrder({ "id", "parentId", "childName", "createdAt", "vorname" })
 public class ChildDto {
 
     @JsonProperty(value = "id", required = false, access = JsonProperty.Access.READ_WRITE, defaultValue = "-1")
     private Long id;
 
+    @NotEmpty(message = "child name must not be empty and is required")
+    @Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "child name Must contain only alphanumerical  characters")
     @JsonProperty(value = "child_name", required = true, access = JsonProperty.Access.READ_WRITE, defaultValue = "nameDefault")
     private String childName;
 

@@ -1,5 +1,6 @@
 package at.cgsit.kurs.repository;
 
+import at.cgsit.kurs.data.TestNames;
 import at.cgsit.kurs.model.TestEntity;
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
@@ -40,20 +41,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TestEntityRepositoryTest {
 
-  enum TestNames {
-    CHRIS("Chris"),
-    FRANK("Frank"),
-    INSERTED("insertedName"),
-    UPDATED("updatedName"),
-    TO_DELETE("toDelete");
-
-    final String value;
-
-    TestNames(String value) {
-      this.value = value;
-    }
-  }
-
   @Inject
   TestEntityRepository repository;
 
@@ -62,8 +49,8 @@ class TestEntityRepositoryTest {
   void initData() {
     // dbunit.cleanINsert("/data/testentity.xml");
     repository.deleteAll();
-    repository.insertTestEntity(new TestEntity(TestNames.CHRIS.value));
-    repository.insertTestEntity(new TestEntity(TestNames.FRANK.value));
+    repository.insertTestEntity(new TestEntity(TestNames.HERR_MANN.getName(), TestNames.HERR_MANN.getVorname()));
+    repository.insertTestEntity(new TestEntity(TestNames.FRANK_ELSTNER.getName(), TestNames.FRANK_ELSTNER.getVorname()));
   }
 
   /**
@@ -78,7 +65,7 @@ class TestEntityRepositoryTest {
   @Test
   void testChris() {
     assertTrue(repository.findAll().stream()
-        .anyMatch(e -> TestNames.CHRIS.value.equals(e.getName())));
+        .anyMatch(e -> TestNames.HERR_MANN.getName().equals(e.getName())));
   }
 
   @Test
@@ -87,8 +74,8 @@ class TestEntityRepositoryTest {
         .map(TestEntity::getName)
         .toList();
 
-    assertTrue(names.contains(TestNames.CHRIS.value), "Should contain Chris");
-    assertTrue(names.contains(TestNames.FRANK.value), "Should contain Frank");
+    assertTrue(names.contains(TestNames.HERR_MANN.getName()), "Should contain Chris");
+    assertTrue(names.contains(TestNames.FRANK_ELSTNER.getName()), "Should contain Frank");
   }
 
   /**
@@ -96,9 +83,9 @@ class TestEntityRepositoryTest {
    */
   @Test
   void testFindByNameExact() {
-    List<TestEntity> result = repository.findByName(TestNames.CHRIS.value, true);
+    List<TestEntity> result = repository.findByName(TestNames.HERR_MANN.getName() , true);
     assertEquals(1, result.size());
-    assertEquals(TestNames.CHRIS.value, result.get(0).getName());
+    assertEquals(TestNames.HERR_MANN.getName(), result.getFirst().getName());
   }
 
   /**
@@ -106,9 +93,9 @@ class TestEntityRepositoryTest {
    */
   @Test
   void findByNameCriteriaApiExact() {
-    List<TestEntity> result = repository.findByNameCriteriaApi(TestNames.CHRIS.value , true);
+    List<TestEntity> result = repository.findByNameCriteriaApi(TestNames.HERR_MANN.getName() , true);
     assertEquals(1, result.size());
-    assertEquals(TestNames.CHRIS.value, result.get(0).getName());
+    assertEquals(TestNames.HERR_MANN.getName(), result.getFirst().getName());
   }
 
   /**
@@ -141,14 +128,14 @@ class TestEntityRepositoryTest {
   @Test
   @TestTransaction
   void testInsertTestEntity() {
-    TestEntity testEntity = new TestEntity(TestNames.INSERTED.value);
+    TestEntity testEntity = new TestEntity(TestNames.INSERTED.getName(), TestNames.INSERTED.getVorname());
 
     TestEntity persisted = repository.insertTestEntity(testEntity);
 
     assertNotNull(persisted);
     assertNotNull(persisted.getId());
     assertTrue(repository.findAll().stream()
-        .anyMatch(e -> TestNames.INSERTED.value.equals(e.getName())));
+        .anyMatch(e -> TestNames.INSERTED.getName().equals(e.getName())));
   }
 
   /**
@@ -157,12 +144,13 @@ class TestEntityRepositoryTest {
   @Test
   @TestTransaction
   void testUpdateTestEntity() {
-    TestEntity entity = repository.insertTestEntity(new TestEntity("temp"));
-    entity.setName(TestNames.UPDATED.value);
+    TestEntity entity = repository.insertTestEntity(new TestEntity("temp", "temp"));
+    entity.setName(TestNames.UPDATED.getName());
+    entity.setVorname(TestNames.UPDATED.getVorname());
 
     TestEntity updated = repository.updateTestEntity(entity);
 
-    assertEquals(TestNames.UPDATED.value, updated.getName());
+    assertEquals(TestNames.UPDATED.getName(), updated.getName());
   }
 
   /**
@@ -171,11 +159,11 @@ class TestEntityRepositoryTest {
   @Test
   @TestTransaction
   void testDeleteTestEntity() {
-    TestEntity entity = repository.insertTestEntity(new TestEntity(TestNames.TO_DELETE.value));
+    TestEntity entity = repository.insertTestEntity(new TestEntity(TestNames.TO_DELETE.getName(), TestNames.TO_DELETE.getVorname()));
     repository.deleteTestEntity(entity);
 
     boolean stillExists = repository.findAll().stream()
-        .anyMatch(e -> TestNames.TO_DELETE.value.equals(e.getName()));
+        .anyMatch(e -> TestNames.TO_DELETE.getName().equals(e.getName()));
 
     assertFalse(stillExists, "Entity should have been deleted");
   }
@@ -186,14 +174,14 @@ class TestEntityRepositoryTest {
   @Test
   @TestTransaction
   void testFindByIdAndReadById() {
-    TestEntity entity = repository.insertTestEntity(new TestEntity("Findable"));
-    Long id = entity.getId().longValue();
+    TestEntity entity = repository.insertTestEntity(new TestEntity("Findable", "Findable"));
+    Long id = entity.getId();
 
     TestEntity found = repository.findById(id);
     assertNotNull(found);
     assertEquals("Findable", found.getName());
 
-    TestEntity read = repository.readTestEntityById(id.intValue());
+    TestEntity read = repository.readTestEntityById(id);
     assertNotNull(read);
     assertEquals("Findable", read.getName());
   }
@@ -204,9 +192,9 @@ class TestEntityRepositoryTest {
   @Test
   @TestTransaction
   void testDeleteById() {
-    TestEntity entity = repository.insertTestEntity(new TestEntity("ToDeleteById"));
+    TestEntity entity = repository.insertTestEntity(new TestEntity("ToDeleteById" , "ToDeleteById"));
     repository.deleteTestEntity(entity);
-    TestEntity shouldBeGone = repository.findById(entity.getId().longValue());
+    TestEntity shouldBeGone = repository.findById(entity.getId());
     assertNull(shouldBeGone);
   }
 
