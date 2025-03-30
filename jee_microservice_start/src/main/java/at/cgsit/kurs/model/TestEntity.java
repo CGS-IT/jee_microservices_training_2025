@@ -129,6 +129,16 @@ public class TestEntity {
     this.eventDate = eventDate;
   }
 
-
-
+  @Override
+  public String toString() {
+    return "TestEntity{" +
+        "id=" + id +
+        ", versionNo=" + versionNo +
+        ", name='" + name + '\'' +
+        ", vorname='" + vorname + '\'' +
+        ", active=" + active +
+        ", eventDate=" + eventDate +
+        ", children=" + children +
+        '}';
+  }
 }

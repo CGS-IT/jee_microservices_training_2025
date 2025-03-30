@@ -28,7 +28,7 @@ public class TestDTO {
    *
    */
   @JsonProperty(value = "name", required = true, access = JsonProperty.Access.READ_WRITE, defaultValue = "nameDefault")
-  @Pattern(regexp = "^[a-zA-Z]+$", message = "Must contain only alphabetical characters")
+  @Pattern(regexp = "^[a-zA-Z ]+$", message = "Must contain only alphabetical characters")
   @NotEmpty
   String name;
 
