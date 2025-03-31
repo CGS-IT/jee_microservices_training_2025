@@ -9,6 +9,8 @@ This project is used as an example project for jee microservice development with
 and is part of the course material for the course "Microservice Development with Quarkus" 
 see ./license.txt for license information.
 
+see Project for Slides https://github.com/CGS-IT/jee_microservices_training_materials_2025
+
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
 
