@@ -6,7 +6,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: BUILC CGS IT JEE Microservice Training Project 
+name: BUILD CGS IT JEE Microservice Training Project
 
 on:
   push:
@@ -25,7 +25,7 @@ jobs:
       - name: Setup Database (disabled)
         run: echo "Skipping database setup – no database required"
       # - name: Setup Database
-      #  run: ./setup_server.sh
+      #   run: ./setup_server.sh
 
       - name: Set up JDK 21
         uses: actions/setup-java@v3
@@ -35,16 +35,19 @@ jobs:
           cache: maven
 
       - name: Build and Run Tests with Coverage
-        run: mvn clean verify -Djacoco
+        run: mvn clean verify
 
-      - name: Generate Jacoco Report
+      - name: Generate individual Jacoco reports
         run: mvn jacoco:report
 
-      - name: Upload coverage reports to Codecov
+      - name: Generate aggregated Jacoco report
+        run: mvn jacoco:report-aggregate
+
+      - name: Upload aggregated coverage report to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: target/site/jacoco/jacoco.xml
+          files: target/site/jacoco-aggregate/jacoco.xml
           fail_ci_if_error: true
 
       - name: Update dependency graph
