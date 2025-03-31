@@ -12,20 +12,16 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 //
 
 @QuarkusTest
-@TestHTTPEndpoint(ExampleResource.class)
 public class ExampleResourceTest {
 
-    @Test
-    public void testHelloEndpoint() {
-        given()
-                .when()
-                //.get("/hello") TestHTTPEndpoint will provide the path
-                .get()
-                .then()
-                .statusCode(200)
-                .body(is(notNullValue()));
-                //.body(is("Hello RESTEasy"));
-    }
-
-
+  @Test
+  public void testHelloEndpoint() {
+    given()
+        .when()
+        .get("/api/hello")
+        // .get()
+        .then()
+        .statusCode(200)
+        .body(is(notNullValue()));
+  }
 }
