@@ -22,8 +22,10 @@ jobs:
       - name: Checkout source code     
         uses: actions/checkout@v3
 
-      - name: Setup Database
-        run: ./setup_server.sh
+      - name: Setup Database (disabled)
+        run: echo "Skipping database setup – no database required"
+      # - name: Setup Database
+      #  run: ./setup_server.sh
 
       - name: Set up JDK 21
         uses: actions/setup-java@v3
