@@ -1,5 +1,6 @@
 package at.cgsit.kurs.repository;
 
+import at.cgsit.kurs.base.BaseQuarkusTest;
 import at.cgsit.kurs.data.TestNames;
 import at.cgsit.kurs.model.ChildEntity;
 import at.cgsit.kurs.model.TestEntity;
@@ -21,25 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @QuarkusTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class TestEntityAndChildRepositoryTest {
-
-  @Inject
-  TestEntityRepository repository;
-
-  @BeforeAll
-  @Transactional
-  void initData() {
-    // dbunit.cleanINsert("/data/testentity.xml");
-    // we delete the test entities here, because our startup Observer will insert or default data already
-    // and we need to guarantee that the data is in the same state for each test
-    repository.deleteAll();
-    repository.insertTestEntity(new TestEntity(TestNames.HERR_MANN.getName(), TestNames.HERR_MANN.getVorname()));
-    repository.insertTestEntity(new TestEntity(TestNames.FRANK_ELSTNER.getName(), TestNames.FRANK_ELSTNER.getVorname()));
-  }
-  @AfterAll
-  void afterAll() {
-    // dbunit.cleanINsert("/data/testentity.xml");
-  }
+class TestEntityAndChildRepositoryTest extends BaseQuarkusTest {
 
   @BeforeEach
   void setUpBeforeEachTestMehtod() {

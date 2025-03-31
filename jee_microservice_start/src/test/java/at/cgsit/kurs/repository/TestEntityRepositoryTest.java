@@ -1,7 +1,9 @@
 package at.cgsit.kurs.repository;
 
+import at.cgsit.kurs.base.BaseQuarkusTest;
 import at.cgsit.kurs.data.TestNames;
 import at.cgsit.kurs.model.TestEntity;
+import at.cgsit.kurs.testutil.TestDefaults;
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -39,19 +41,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @QuarkusTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class TestEntityRepositoryTest {
-
-  @Inject
-  TestEntityRepository repository;
-
-  @BeforeAll
-  @Transactional
-  void initData() {
-    // dbunit.cleanINsert("/data/testentity.xml");
-    repository.deleteAll();
-    repository.insertTestEntity(new TestEntity(TestNames.HERR_MANN.getName(), TestNames.HERR_MANN.getVorname()));
-    repository.insertTestEntity(new TestEntity(TestNames.FRANK_ELSTNER.getName(), TestNames.FRANK_ELSTNER.getVorname()));
-  }
+class TestEntityRepositoryTest extends BaseQuarkusTest {
 
   /**
    * Test count of TestEntities
@@ -93,6 +83,7 @@ class TestEntityRepositoryTest {
    */
   @Test
   void findByNameCriteriaApiExact() {
+    List<TestEntity> all = repository.findAll();
     List<TestEntity> result = repository.findByNameCriteriaApi(TestNames.HERR_MANN.getName() , true);
     assertEquals(1, result.size());
     assertEquals(TestNames.HERR_MANN.getName(), result.getFirst().getName());
@@ -103,9 +94,9 @@ class TestEntityRepositoryTest {
    */
   @Test
   void testFindByNameLike() {
-    List<TestEntity> result = repository.findByName("ris", false);
+    List<TestEntity> result = repository.findByName(TestDefaults.MACH_ELSTNER_PARTIAL, false);
     assertFalse(result.isEmpty());
-    assertTrue(result.stream().anyMatch(e -> e.getName().contains("ris")));
+    assertTrue(result.stream().anyMatch(e -> e.getName().contains(TestDefaults.MACH_ELSTNER_PARTIAL)));
   }
 
   /**
@@ -113,7 +104,7 @@ class TestEntityRepositoryTest {
    */
   @Test
   void testFindByNameExact_NoMatch() {
-    String nonExistentName = "NonExistingName";
+    String nonExistentName = TestDefaults.NON_EXISTING_NAME;
 
     List<TestEntity> result = repository.findByName(nonExistentName, true);
 
@@ -128,7 +119,7 @@ class TestEntityRepositoryTest {
   @Test
   @TestTransaction
   void testInsertTestEntity() {
-    TestEntity testEntity = new TestEntity(TestNames.INSERTED.getName(), TestNames.INSERTED.getVorname());
+    TestEntity testEntity = new TestEntity(TestNames.INSERTED.getVorname(), TestNames.INSERTED.getName());
 
     TestEntity persisted = repository.insertTestEntity(testEntity);
 

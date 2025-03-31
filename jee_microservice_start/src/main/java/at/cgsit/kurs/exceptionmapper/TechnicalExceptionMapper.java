@@ -5,15 +5,16 @@ import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.ext.Provider;
 import org.jboss.logging.Logger;
 
-// @Provider
-public class TechnicalExceptionMapper implements ExceptionMapper<Exception> {
+@Provider
+public class TechnicalExceptionMapper implements ExceptionMapper<RuntimeException> {
 
     private static final Logger LOG = Logger.getLogger(TechnicalExceptionMapper.class);
 
     @Override
-    public Response toResponse(Exception exception) {
+    public Response toResponse(RuntimeException exception) {
         if (exception instanceof NotFoundException) {
             // Let NotFoundExceptionMapper handle it
             return Response.status(Response.Status.NOT_FOUND).build(); // fallback, just in case

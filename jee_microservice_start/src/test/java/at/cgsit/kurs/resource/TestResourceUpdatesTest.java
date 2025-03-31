@@ -1,5 +1,6 @@
 package at.cgsit.kurs.resource;
 
+import at.cgsit.kurs.base.BaseQuarkusTest;
 import at.cgsit.kurs.data.TestNames;
 import at.cgsit.kurs.dto.TestDTO;
 import at.cgsit.kurs.model.TestEntity;
@@ -30,20 +31,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @QuarkusTest
 @TestHTTPEndpoint(TestResource.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class TestResourceUpdatesTest {
-
-  @Inject
-  TestEntityRepository repository;
-
-  @BeforeEach
-  @Transactional
-  void initData() {
-    // dbunit.cleanINsert("/data/testentity.xml");
-    repository.deleteAll();
-    repository.resetIdSequence(); // hack .. you should not do this in real tests, use dbuint including ids for example
-    repository.insertTestEntity(new TestEntity(TestNames.HERR_MANN.getVorname(), TestNames.HERR_MANN.getName()));
-    repository.insertTestEntity(new TestEntity(TestNames.FRANK_ELSTNER.getVorname(), TestNames.FRANK_ELSTNER.getName()));
-  }
+class TestResourceUpdatesTest extends BaseQuarkusTest {
 
   @Test
   @Transactional

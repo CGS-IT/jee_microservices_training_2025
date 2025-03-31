@@ -13,6 +13,8 @@ public final class TestDefaults {
     public static final String VALID_NAME = TestNames.HERR_MANN.getName();
     public static final Date FIXED_DATE = Date.from(Instant.parse("2025-01-01T00:00:00.00Z"));
     public static final String CHILD_NAME = "child1";
+    public static final String MACH_ELSTNER_PARTIAL = "lstn";
+    public static final String NON_EXISTING_NAME = "NonExistingName";
 
     private TestDefaults() {
         // Prevent instantiation

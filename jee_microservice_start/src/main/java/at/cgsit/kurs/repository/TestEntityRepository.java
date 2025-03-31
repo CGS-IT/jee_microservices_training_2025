@@ -213,11 +213,14 @@ public class TestEntityRepository {
 
   @Transactional
   public void deleteAll() {
+    em.createQuery("DELETE FROM ChildEntity ").executeUpdate();
     em.createQuery("DELETE FROM TestEntity").executeUpdate();
   }
 
   @Transactional
   public void resetIdSequence() {
+    // not production ready soltion for testing only and not refactor save ! take care
+    em.createNativeQuery("ALTER SEQUENCE child_entity_SEQ RESTART WITH 1").executeUpdate();
     em.createNativeQuery("ALTER SEQUENCE test_SEQ RESTART WITH 1").executeUpdate();
   }
 

@@ -13,6 +13,9 @@
         <module>jee_microservice_cdi</module>
         <module>jee_microservice_base_security</module>
         <module>jee_microservice_messaging</module>
+        <!-- currently not working
+        <module>jee_microservice_openapi_gen</module>
+        -->
     </modules>
 
 </project>
