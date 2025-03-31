@@ -1,0 +1,51 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: BUILC CGS IT JEE Microservice Training Project 
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code     
+        uses: actions/checkout@v3
+
+      - name: Setup Database (disabled)
+        run: echo "Skipping database setup – no database required"
+      # - name: Setup Database
+      #  run: ./setup_server.sh
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build and Run Tests with Coverage
+        run: mvn clean verify -Djacoco
+
+      - name: Generate Jacoco Report
+        run: mvn jacoco:report
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: target/site/jacoco/jacoco.xml
+          fail_ci_if_error: true
+
+      - name: Update dependency graph
+        uses: advanced-security/maven-dependency-submission-action@v3
