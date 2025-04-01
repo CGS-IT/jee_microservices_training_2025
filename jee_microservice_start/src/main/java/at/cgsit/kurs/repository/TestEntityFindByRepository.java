@@ -3,9 +3,7 @@ package at.cgsit.kurs.repository;
 import at.cgsit.kurs.model.TestEntity;
 import at.cgsit.kurs.model.TestEntity_;
 import at.cgsit.kurs.repoadapt.TestEntityRepositoryInterface;
-import jakarta.annotation.Priority;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.Alternative;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
@@ -49,7 +47,7 @@ public class TestEntityFindByRepository implements TestEntityRepositoryInterface
                  .getSingleResult();
     }
 
-    public Optional<TestEntity> findById(Integer id) {
+    public Optional<TestEntity> findById(Long id) {
         return Optional.ofNullable(em.find(TestEntity.class, id));
     }
 
@@ -62,7 +60,7 @@ public class TestEntityFindByRepository implements TestEntityRepositoryInterface
         return entity;
     }
 
-    public void deleteById(Integer id) {
+    public void deleteById(Long id) {
         findById(id).ifPresent(em::remove);
     }
 }

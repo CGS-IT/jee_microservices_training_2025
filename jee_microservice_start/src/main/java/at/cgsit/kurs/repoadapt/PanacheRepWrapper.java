@@ -34,8 +34,8 @@ public class PanacheRepWrapper implements TestEntityRepositoryInterface {
     }
 
     @Override
-    public Optional<TestEntity> findById(Integer id) {
-      return panache.findByIdOptional(id.longValue());
+    public Optional<TestEntity> findById(Long id) {
+      return panache.findByIdOptional(id);
     }
 
     @Override
@@ -45,8 +45,8 @@ public class PanacheRepWrapper implements TestEntityRepositoryInterface {
     }
 
     @Override
-    public void deleteById(Integer id) {
-      panache.deleteById(id.longValue());
+    public void deleteById(Long id) {
+      panache.deleteById(id);
     }
 
   }

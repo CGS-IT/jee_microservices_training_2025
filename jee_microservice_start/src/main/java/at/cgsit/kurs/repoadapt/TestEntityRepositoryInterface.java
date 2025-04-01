@@ -13,10 +13,10 @@ public interface TestEntityRepositoryInterface {
     List<TestEntity> findByNamePaged(String name, int page, int size);
 
     long countTestEntities();
-    Optional<TestEntity> findById(Integer id);
+    Optional<TestEntity> findById(Long id);
 
     TestEntity save(TestEntity entity);
 
-    void deleteById(Integer id);
+    void deleteById(Long id);
 
 }
