@@ -51,9 +51,9 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          flags: unmerged
           name: multi-module-reports
-          files: |
+          flags: unmerged
+          files: >
             jee_microservice_start/target/site/jacoco/jacoco.xml
             jee_microservice_cdi/target/site/jacoco/jacoco.xml
             jee_microservice_base_security/target/site/jacoco/jacoco.xml
