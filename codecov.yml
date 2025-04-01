@@ -1,0 +1,17 @@
+coverage:
+  status:
+    project:
+      default:
+        target: 70%         # ✅ Green when >= 80%
+        threshold: 2%       # Allowable drop before failing
+        base: auto
+        if_not_found: success
+        informational: false
+    patch:
+      default:
+        target: 60%
+        threshold: 0.5%
+
+ignore:
+  - "**/generated/**"
+  - "**/config/**"
