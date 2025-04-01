@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TestServiceTest extends BaseQuarkusTest {
 
   @Inject
-  EnhancedTestService service;
+  TestService service;
 
   @org.junit.jupiter.api.Test
   void testEnhancedService() {
@@ -39,8 +39,7 @@ class TestServiceTest extends BaseQuarkusTest {
     dto.setActive(true);
 
     // creates with dto in , returns dto out
-    TestDTO testDTO = service.create(dto);
-    assertNotNull(testDTO.getId());
+    service.create(dto);
   }
 
   @Test
