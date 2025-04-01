@@ -5,13 +5,15 @@ import at.cgsit.kurs.model.TestEntity;
 import at.cgsit.kurs.testutil.TestDataFactory;
 import at.cgsit.kurs.testutil.TestDefaults;
 import io.quarkus.test.component.QuarkusComponentTest;
+import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-@QuarkusComponentTest
-class TestEntityTranslatorTest {
+@QuarkusTest
+class TestEntityTranslatorQuarkusTest {
 
     @Inject
     protected TestEntityTranslator translator;
@@ -89,4 +91,6 @@ class TestEntityTranslatorTest {
         assertNull(entity.getVersionNo());
         assertNull(entity.getName());
     }
+
+
 }

@@ -26,31 +26,19 @@ public class ConfigPropertyResource {
   // @Path("/")
   @Produces(MediaType.TEXT_PLAIN)
   public String showMessage() {
-    LOG.infov(  "INFO  :: showMessage {0}", message);
-
-    try {
-      return "Hello: " + message;
-    } catch (RuntimeException ex ) {
-      LOG.error("fehler beim message lesen ", ex);
-    }
-    return "";
+    LOG.infov("INFO  :: showMessage {0}", message);
+    return "Hello: " + message;
   }
 
   @GET
   @Path("/fromProvider")
   @Produces(MediaType.TEXT_PLAIN)
   public String showMessageFromConfigurationProperty() {
-    LOG.infov(  "INFO  :: showMessage {0}", message);
+    LOG.infov("INFO  :: showMessage {0}", message);
 
     // String configParamRead = ConfigProvider.getConfig().getValue("greeting.message", String.class);
     Optional<String> configParamRead = ConfigProvider.getConfig().getOptionalValue("greeting.message", String.class);
-
-    try {
-      return "Hello: config read via Config Provider " + configParamRead;
-    } catch (RuntimeException ex ) {
-      LOG.error("fehler beim message lesen ", ex);
-    }
-    return "";
+    return "Hello: config read via Config Provider " + configParamRead;
   }
 
 }
