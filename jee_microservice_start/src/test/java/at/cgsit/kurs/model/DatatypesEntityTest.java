@@ -103,7 +103,7 @@ class DatatypesEntityTest {
         assertEquals(new GregorianCalendar(2024, Calendar.JANUARY, 1).getTime(), loaded.getLegacyDate());
         assertEquals(cal.get(Calendar.YEAR), loaded.getLegacyCalendar().get(Calendar.YEAR));
 
-        assertEquals(new BigDecimal("12345.6789"), loaded.getBigDecimal());
+        assertEquals(0, loaded.getBigDecimal().compareTo(new BigDecimal("12345.6789")));
         assertEquals(new BigInteger("987654321"), loaded.getBigInteger());
         assertEquals(uuid, loaded.getUuid());
         assertArrayEquals(binary, loaded.getBinaryData());
