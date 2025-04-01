@@ -40,14 +40,17 @@ jobs:
       - name: Generate individual Jacoco reports
         run: mvn jacoco:report
 
-      - name: Generate aggregated Jacoco report
-        run: mvn jacoco:report-aggregate
-
-      - name: Upload aggregated coverage report to Codecov
+      - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: target/site/jacoco-aggregate/jacoco.xml
+          flags: unmerged
+          name: multi-module-reports
+          files: |
+            jee_microservice_start/target/site/jacoco/jacoco.xml
+            jee_microservice_cdi/target/site/jacoco/jacoco.xml
+            jee_microservice_base_security/target/site/jacoco/jacoco.xml
+            jee_microservice_messaging/target/site/jacoco/jacoco.xml
           fail_ci_if_error: true
 
       - name: Update dependency graph
