@@ -25,7 +25,8 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
                         name = "Apache 2.0",
                         url = "https://www.apache.org/licenses/LICENSE-2.0.html"))
 )
-@ApplicationPath("/api")
+// if you want to use /api as the base path .. take care about the tests which are changing now to /api/*
+// @ApplicationPath("/api")
 public class CDIApplication extends Application {
 }
 

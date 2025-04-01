@@ -18,7 +18,8 @@ public class ExampleResourceTest {
   public void testHelloEndpoint() {
     given()
         .when()
-        .get("/api/hello")
+        // .get("/api/hello") if you enable the API path in your app rest class the path is changing see CDIApplication
+        .get("/hello")
         // .get()
         .then()
         .statusCode(200)

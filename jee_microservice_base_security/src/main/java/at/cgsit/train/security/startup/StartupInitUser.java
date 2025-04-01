@@ -25,5 +25,7 @@ public class StartupInitUser {
         User.deleteAll();
         User.add("admin", "admin", "admin_role");
         User.add("user", "user", "user_role");
+        // BUG add a user which can be blocked
+        User.add("blocked_user", "blocked", "blocked");
     }
 }
