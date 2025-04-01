@@ -37,9 +37,16 @@ jobs:
       - name: Build and Run Tests with Coverage
         run: mvn clean verify
 
-      - name: Generate individual Jacoco reports
-        run: mvn jacoco:report
+      - name: Generate individual Jacoco reports for all modules
+        run: |
+          mvn -pl jee_microservice_start jacoco:report
+          mvn -pl jee_microservice_cdi jacoco:report
+          mvn -pl jee_microservice_base_security jacoco:report
+          mvn -pl jee_microservice_messaging jacoco:report
 
+      - name: Debug list coverage report files
+        run: find . -name jacoco.xml
+  
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         with:
