@@ -4,6 +4,7 @@ import at.cgsit.kurs.base.BaseQuarkusTest;
 import at.cgsit.kurs.data.TestNames;
 import at.cgsit.kurs.dto.TestDTO;
 import at.cgsit.kurs.model.TestEntity;
+import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
@@ -31,6 +32,7 @@ class TestServiceTest extends BaseQuarkusTest {
   }
 
   @Test
+  @TestTransaction
   void testCreate_validDto() {
     TestDTO dto = new TestDTO();
     dto.setName("NewName");
