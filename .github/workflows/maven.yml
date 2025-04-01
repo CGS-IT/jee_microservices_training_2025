@@ -46,6 +46,9 @@ jobs:
 
       - name: Debug list coverage report files
         run: find . -name jacoco.xml
+
+      - name: Preview one XML file
+        run: cat jee_microservice_start/target/site/jacoco/jacoco.xml | head -20        
   
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
@@ -53,12 +56,9 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           name: multi-module-reports
           flags: unmerged
-          files: >
-            jee_microservice_start/target/site/jacoco/jacoco.xml
-            jee_microservice_cdi/target/site/jacoco/jacoco.xml
-            jee_microservice_base_security/target/site/jacoco/jacoco.xml
-            jee_microservice_messaging/target/site/jacoco/jacoco.xml
+          files: jee_microservice_start/target/site/jacoco/jacoco.xml,jee_microservice_cdi/target/site/jacoco/jacoco.xml,jee_microservice_base_security/target/site/jacoco/jacoco.xml,jee_microservice_messaging/target/site/jacoco/jacoco.xml
           fail_ci_if_error: true
+
 
       - name: Update dependency graph
         uses: advanced-security/maven-dependency-submission-action@v3
