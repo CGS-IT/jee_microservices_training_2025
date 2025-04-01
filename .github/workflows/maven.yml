@@ -37,18 +37,28 @@ jobs:
       - name: Build and Run Tests with Coverage
         run: mvn clean verify
 
-      - name: Generate individual Jacoco reports
-        run: mvn jacoco:report
+      - name: Generate individual Jacoco reports for all modules
+        run: |
+          mvn -pl jee_microservice_start jacoco:report
+          mvn -pl jee_microservice_cdi jacoco:report
+          mvn -pl jee_microservice_base_security jacoco:report
+          mvn -pl jee_microservice_messaging jacoco:report
 
-      - name: Generate aggregated Jacoco report
-        run: mvn jacoco:report-aggregate
+      - name: Debug list coverage report files
+        run: find . -name jacoco.xml
 
-      - name: Upload aggregated coverage report to Codecov
+      - name: Preview one XML file
+        run: cat jee_microservice_start/target/site/jacoco/jacoco.xml | head -20        
+  
+      - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: target/site/jacoco-aggregate/jacoco.xml
+          name: multi-module-reports
+          flags: unmerged
+          files: jee_microservice_start/target/site/jacoco/jacoco.xml,jee_microservice_cdi/target/site/jacoco/jacoco.xml,jee_microservice_base_security/target/site/jacoco/jacoco.xml,jee_microservice_messaging/target/site/jacoco/jacoco.xml
           fail_ci_if_error: true
+
 
       - name: Update dependency graph
         uses: advanced-security/maven-dependency-submission-action@v3

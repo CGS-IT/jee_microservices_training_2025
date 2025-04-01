@@ -1,7 +1,10 @@
+### build and ci/cd information
 [![Java CI with Maven](https://github.com/CGS-IT/jee_microservices_training_2025/actions/workflows/maven.yml/badge.svg)](https://github.com/CGS-IT/jee_microservices_training_2025/actions/workflows/maven.yml)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/jee_micro/jee_micro/badge.svg)](https://maven-badges.herokuapp.com/maven-central/jee_micro/jee_micro)
 [![codecov](https://codecov.io/gh/CGS-IT/jee_microservices_training_2025/branch/main/graph/badge.svg?token=PBF8CW2H9X)](https://codecov.io/gh/CGS-IT/jee_microservices_training_2025)
 [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
+
+> Release Information: [![Release Info](https://img.shields.io/github/release/CGS-IT/jee_microservices_training_2025.svg)](https://github.com/CGS-IT/jee_microservices_training_2025/releases)
 
 # Workshop : JEE Microservice Development with Quarkus
 ## kurs_jeemicro
