@@ -1,5 +1,6 @@
 package at.cgsit.train.producer;
 
+import io.smallrye.reactive.messaging.annotations.Broadcast;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 
@@ -11,7 +12,7 @@ public class UserEventProducer {
 
     @Inject
     @Channel("user-events")
-    //@Channel("internal")
+    @Broadcast // Tell Quarkus explicitly that your Emitter can send to multiple consumers
     Emitter<String> emitter;
 
     public void send(String message) {
