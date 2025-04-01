@@ -41,6 +41,13 @@
                         <goals>
                             <goal>report-aggregate</goal>
                         </goals>
+                        <configuration>
+                            <dataFileIncludes>
+                                <dataFileInclude>**/jacoco-quarkus.exec</dataFileInclude>
+                            </dataFileIncludes>
+                            <!-- Optional: Use full report name -->
+                            <outputDirectory>${project.build.directory}/site/jacoco-aggregate</outputDirectory>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
