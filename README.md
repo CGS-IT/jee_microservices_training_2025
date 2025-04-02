@@ -7,7 +7,7 @@
 > Release Information: [![Release Info](https://img.shields.io/github/release/CGS-IT/jee_microservices_training_2025.svg)](https://github.com/CGS-IT/jee_microservices_training_2025/releases)
 
 # Workshop : JEE Microservice Development with Quarkus
-## kurs_jeemicro
+
 This project is used as an example project for jee microservice development with quarkus 
 and is part of the course material for the course "Microservice Development with Quarkus" 
 see ./license.txt for license information.
