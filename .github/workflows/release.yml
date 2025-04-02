@@ -27,14 +27,15 @@ jobs:
           mvn versions:commit
       
       - name: Build Quarkus application (JVM mode)
-        run: mvn clean package -DskipTests -Dquarkus.package.type=fast-jar
+        run: mvn clean package -DskipTests -Dquarkus.package.type=fast-jar -pl jee_microservice_start -am
       
       - name: Show target structure
-        run: ls -R target
+        run: ls -R jee_microservice_start/target
       
       - name: Package release ZIP
         run: |
           mkdir release
-          cp -r target/quarkus-app release/
+          cp -r jee_microservice_start/target/quarkus-app release/
           cd release
           zip -r ../quarkus-app-${GITHUB_REF_NAME#v}.zip .
+
