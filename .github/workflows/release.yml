@@ -25,7 +25,7 @@ jobs:
         run: mvn versions:set -DnewVersion=${GITHUB_REF_NAME#v}
 
       - name: Build Quarkus application (JVM mode)
-        run: mvn clean package -DskipTests
+        run: mvn clean package -DskipTests -Dquarkus.package.type=fast-jar
 
       - name: Package release ZIP
         run: |
