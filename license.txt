@@ -1,1 +1,13 @@
-This work © 2023 by CGS-IT Solutions GmbH is licensed under Attribution-NonCommercial 4.0 International
+This work © 2025 by CGS-IT Solutions GmbH is licensed under Attribution-NonCommercial 4.0 International
+
+Creative Commons Attribution-NonCommercial 4.0 International
+
+You are free to:
+- Share — copy and redistribute the material in any medium or format
+- Adapt — remix, transform, and build upon the material
+
+Under the following terms:
+- Attribution — You must give appropriate credit.
+- NonCommercial — You may not use the material for commercial purposes.
+
+Full license: https://creativecommons.org/licenses/by-nc/4.0/
