@@ -22,19 +22,19 @@ jobs:
           distribution: 'temurin'
 
       - name: Set release version (strip -SNAPSHOT)
-        run: mvn versions:set -DnewVersion=${GITHUB_REF_NAME#v}
-
+        run: |
+          mvn versions:set -DnewVersion=${GITHUB_REF_NAME#v}
+          mvn versions:commit
+      
       - name: Build Quarkus application (JVM mode)
         run: mvn clean package -DskipTests -Dquarkus.package.type=fast-jar
-
+      
+      - name: Show target structure
+        run: ls -R target
+      
       - name: Package release ZIP
         run: |
           mkdir release
           cp -r target/quarkus-app release/
           cd release
           zip -r ../quarkus-app-${GITHUB_REF_NAME#v}.zip .
-
-      - name: Upload ZIP to GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: quarkus-app-${{ github.ref_name }}.zip
