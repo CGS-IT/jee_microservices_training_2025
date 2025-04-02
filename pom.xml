@@ -8,6 +8,35 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <licenses>
+      <license>
+        <name>Creative Commons Attribution-NonCommercial 4.0 International</name>
+        <url>https://creativecommons.org/licenses/by-nc/4.0/</url>
+        <distribution>repo</distribution>
+      </license>
+    </licenses>
+    
+    <developers>
+      <developer>
+        <id>https://github.com/chris-cgsit</id>
+        <name>Christian Schaefer</name>
+        <email>christian.schaefer@cgs.at</email>
+      </developer> 
+      <developer>
+        <id>https://github.com/chrascher</id>
+        <name>Chris Schaefer (private)</name>
+        <email>cgs@cgs.at</email>
+      </developer>        
+    </developers>
+    
+    <scm>
+      <connection>scm:git:git://github.com/CGS-IT/jee_microservices_training_2025.git</connection>
+      <developerConnection>scm:git:ssh://github.com/CGS-IT/jee_microservices_training_2025.git</developerConnection>
+      <url>https://github.com/CGS-IT/jee_microservices_training_2025</url>
+      <tag>HEAD</tag>
+    </scm>
+
+         
     <modules>
         <module>jee_microservice_start</module>
         <module>jee_microservice_cdi</module>
