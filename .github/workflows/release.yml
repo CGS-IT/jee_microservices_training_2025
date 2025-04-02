@@ -1,0 +1,40 @@
+name: Quarkus Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # Triggers on tags like v1.0.0
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to upload release assets
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Set release version (strip -SNAPSHOT)
+        run: mvn versions:set -DnewVersion=${GITHUB_REF_NAME#v}
+
+      - name: Build Quarkus application (JVM mode)
+        run: mvn clean package -DskipTests
+
+      - name: Package release ZIP
+        run: |
+          mkdir release
+          cp -r target/quarkus-app release/
+          cd release
+          zip -r ../quarkus-app-${GITHUB_REF_NAME#v}.zip .
+
+      - name: Upload ZIP to GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: quarkus-app-${{ github.ref_name }}.zip
