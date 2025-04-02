@@ -23,3 +23,6 @@ coverage:
 ignore:
   - "**/generated/**"
   - "**/config/**"
+  - "**/ChatMessage.java"
+  - "**/PBImplA.java"
+  - "**/TracerImpl.java"
