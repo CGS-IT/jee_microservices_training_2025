@@ -19,7 +19,25 @@ If you want to learn more about Quarkus, please visit its website: https://quark
 
 This work © 2025 by CGS-IT Solutions GmbH is licensed under Attribution-NonCommercial 4.0 International
 
-## Running the application in dev mode
+# Related Dokumenentation and Guides
+## Rest Easy 
+
+- RESTEasy Classic ([guide](https://quarkus.io/guides/resteasy)): REST endpoint framework implementing Jakarta REST and
+  more
+
+### Provided Code
+
+### RESTEasy JAX-RS
+
+## JPA Quarkus 
+- Quarkus Hibernate JPA [https://quarkus.io/guides/hibernate-orm]
+
+Easily start your RESTful Web Services
+
+[Related guide section...](https://quarkus.io/guides/getting-started#the-jax-rs-resources)
+
+# Running the application
+# Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:
 
@@ -67,16 +85,3 @@ Or, if you don't have GraalVM installed, you can run the native executable build
 You can then execute your native executable with: `./target/kurs_jeemicro-1.0-SNAPSHOT-runner`
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
-
-## Related Guides
-
-- RESTEasy Classic ([guide](https://quarkus.io/guides/resteasy)): REST endpoint framework implementing Jakarta REST and
-  more
-
-## Provided Code
-
-### RESTEasy JAX-RS
-
-Easily start your RESTful Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started#the-jax-rs-resources)
