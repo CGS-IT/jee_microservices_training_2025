@@ -14,6 +14,10 @@ see ./license.txt for license information.
 
 see Project for Slides https://github.com/CGS-IT/jee_microservices_training_materials_2025
 
+<p align="center">
+  <img src="./images/training.png" alt="Quarkus Microservice Workshop" width="300"/>
+</p>
+
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
 
